@@ -27,6 +27,10 @@ class Task {
   }
 }
 
+function clearFields() {
+  titleInput.value = dueDate.value = notes.value = project.value = "";
+}
+
 function createTask() {
   const newTask = new Task(
     titleInput.value,
@@ -37,12 +41,10 @@ function createTask() {
   const html = `<option value="${newTask.project}">`;
   taskList.push(newTask);
   projectList.push(newTask.project);
-  console.log(taskList);
   document
     .querySelector("#projects-list")
     .insertAdjacentHTML("beforeend", html);
-  console.log(projectList);
-  titleInput.value = dueDate.value = notes.value = project.value = "";
+  clearFields();
 }
 
 /*
