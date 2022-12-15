@@ -15,20 +15,21 @@ class Task {
     dueDate,
     notes,
     project,
-    checklist = [],
-    priority = false
+    priority
+    // checklist = [],
   ) {
     this.title = title;
     this.dueDate = dueDate;
     this.notes = notes;
     this.project = project;
-    this.checklist = [checklist];
-    // this.priority = priority;
+    this.priority = priority.checked ? true : false;
+    // this.checklist = [checklist];
   }
 }
 
 function clearFields() {
   titleInput.value = dueDate.value = notes.value = project.value = "";
+  priority.checked = false;
 }
 
 function createTask() {
@@ -36,7 +37,8 @@ function createTask() {
     titleInput.value,
     dueDate.value,
     notes.value,
-    project.value
+    project.value,
+    priority
   );
   const html = `<option value="${newTask.project}">`;
   taskList.push(newTask);
@@ -45,6 +47,7 @@ function createTask() {
     .querySelector("#projects-list")
     .insertAdjacentHTML("beforeend", html);
   clearFields();
+  console.log(taskList);
 }
 
 /*
