@@ -2,6 +2,7 @@ import "./style.css";
 // import { createTask } from "./modules/tasks.js";
 
 let taskList = [];
+let projectList = [];
 
 const addBtn = document.querySelector("#add-btn");
 addBtn.addEventListener("click", createTask);
@@ -9,14 +10,20 @@ addBtn.addEventListener("click", createTask);
 const titleInput = document.querySelector("#title");
 
 class Task {
-  constructor(title, dueDate, notes, priority, status, checklist, project) {
+  constructor(
+    title,
+    dueDate,
+    notes,
+    project,
+    checklist = [],
+    priority = false
+  ) {
     this.title = title;
     this.dueDate = dueDate;
     this.notes = notes;
-    this.priority = priority;
-    this.status = status;
-    this.checklist = [checklist];
     this.project = project;
+    this.checklist = [checklist];
+    // this.priority = priority;
   }
 }
 
@@ -25,12 +32,17 @@ function createTask() {
     titleInput.value,
     dueDate.value,
     notes.value,
-    priority.value,
-    status.value
+    project.value
   );
-  console.log(newTask);
+  const html = `<option value="${newTask.project}">`;
   taskList.push(newTask);
+  projectList.push(newTask.project);
   console.log(taskList);
+  document
+    .querySelector("#projects-list")
+    .insertAdjacentHTML("beforeend", html);
+  console.log(projectList);
+  titleInput.value = dueDate.value = notes.value = project.value = "";
 }
 
 /*
