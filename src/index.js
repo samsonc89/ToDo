@@ -1,8 +1,9 @@
 import "./style.css";
+import { displayTasks } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
 let taskList = [];
-let projectList = [];
+let projectsList = [];
 
 const addBtn = document.querySelector("#add-btn");
 addBtn.addEventListener("click", createTask);
@@ -32,6 +33,13 @@ function clearFields() {
   priority.checked = false;
 }
 
+function addProjectOption(project) {
+  const html = `<option value="${project}">`;
+  document
+    .querySelector("#projects-list")
+    .insertAdjacentHTML("beforeend", html);
+}
+
 function createTask() {
   const newTask = new Task(
     titleInput.value,
@@ -40,16 +48,15 @@ function createTask() {
     project.value,
     priority
   );
-  const html = `<option value="${newTask.project}">`;
   taskList.push(newTask);
-  projectList.push(newTask.project);
-  document
-    .querySelector("#projects-list")
-    .insertAdjacentHTML("beforeend", html);
+  projectsList.push(newTask.project);
+  addProjectOption(newTask.project);
   clearFields();
   console.log(taskList);
+  displayTasks();
 }
 
+export { taskList, projectsList };
 /*
 Projects = {
     name: ,
