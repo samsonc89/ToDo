@@ -1,9 +1,26 @@
 import "./style.css";
 import { updateTasksUI } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
-
-let taskList = [];
+let task1 = {
+  title: "Test1",
+  dueDate: "",
+  notes: "",
+  project: "",
+  priority: false,
+};
+let task2 = {
+  title: "Testing 2",
+  dueDate: "",
+  notes: "",
+  project: "",
+  priority: false,
+};
+let taskList = [task1, task2];
 let projectsList = [];
+
+taskList.forEach((task) => {
+  updateTasksUI(task);
+});
 
 const addBtn = document.querySelector("#add-btn");
 addBtn.addEventListener("click", createTask);
