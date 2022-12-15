@@ -1,5 +1,5 @@
 import "./style.css";
-import { displayTasks } from "./modules/interface.js";
+import { updateTasksUI } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
 let taskList = [];
@@ -52,8 +52,8 @@ function createTask() {
   projectsList.push(newTask.project);
   addProjectOption(newTask.project);
   clearFields();
-  console.log(taskList);
-  displayTasks();
+  console.log(taskList, projectsList);
+  updateTasksUI(taskList.at(-1));
 }
 
 export { taskList, projectsList };
