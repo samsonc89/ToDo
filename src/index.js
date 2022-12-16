@@ -3,6 +3,7 @@ import {
   updateTasksUI,
   updateProjectsUI,
   checkTask,
+  expandCard,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 let task1 = {
@@ -94,6 +95,7 @@ function createProject() {
   updateProjectsUI(projectsList.at(-1));
 }
 window.checkTask = checkTask;
+window.expandCard = expandCard;
 
 export { taskList, projectsList };
 /*
