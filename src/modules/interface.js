@@ -1,8 +1,9 @@
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
+const taskCards = document.getElementsByClassName("task-card");
 
 function updateTasksUI(task) {
-  const html = `<div class="card task-card" >
+  const html = `<div class="card task-card" ondblclick="expandCard()" >
   
     <h3 class="task-title"><input type="checkbox" onchange="checkTask(this)">${task.title}</h3>
     </div>`;
@@ -25,4 +26,15 @@ function checkTask(checkboxElem) {
   }
 }
 
-export { updateTasksUI, updateProjectsUI, checkTask };
+function expandCard() {
+  event.target.parentElement.classList.toggle("expanded");
+}
+
+window.addEventListener("click", () => {
+  console.log(taskCards);
+  for (let card of taskCards) {
+    card.classList.remove("expanded");
+  }
+});
+
+export { updateTasksUI, updateProjectsUI, checkTask, expandCard };
