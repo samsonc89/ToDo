@@ -25,13 +25,13 @@
 .task-details {
   opacity: 0;
   height: 0;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .expanded > .task-details {
   opacity: 1;
   height: 8vh;
-  transition: all.5s;
+  transition: all 0.3s;
 }
 
 p {
