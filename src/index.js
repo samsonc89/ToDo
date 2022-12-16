@@ -1,5 +1,9 @@
 import "./style.css";
-import { updateTasksUI } from "./modules/interface.js";
+import {
+  updateTasksUI,
+  updateProjectsUI,
+  checkTask,
+} from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 let task1 = {
   title: "Test1",
@@ -23,7 +27,11 @@ taskList.forEach((task) => {
 });
 
 const addBtn = document.querySelector("#add-btn");
-addBtn.addEventListener("click", createTask);
+addBtn.addEventListener("click", () => {
+  if (project.value === "") {
+    createTask();
+  } else createProject();
+});
 
 const titleInput = document.querySelector("#title");
 
@@ -62,16 +70,30 @@ function createTask() {
     titleInput.value,
     dueDate.value,
     notes.value,
-    project.value,
+    "Inbox",
     priority
   );
   taskList.push(newTask);
-  projectsList.push(newTask.project);
-  addProjectOption(newTask.project);
   clearFields();
   console.log(taskList, projectsList);
   updateTasksUI(taskList.at(-1));
 }
+
+function createProject() {
+  const newTask = new Task(
+    titleInput.value,
+    dueDate.value,
+    notes.value,
+    project.value,
+    priority
+  );
+  projectsList.push(newTask);
+  addProjectOption(newTask.project);
+  clearFields();
+  console.log(taskList, projectsList);
+  updateProjectsUI(projectsList.at(-1));
+}
+window.checkTask = checkTask;
 
 export { taskList, projectsList };
 /*
