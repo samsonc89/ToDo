@@ -22,10 +22,26 @@
   margin: 5px 0;
 }
 
-.done {
-  text-decoration: line-through;
+.task-details {
+  opacity: 0;
+  height: 0;
+  transition: all 0.5s;
 }
 
-.expanded {
-  min-height: 10vh;
+.expanded > .task-details {
+  opacity: 1;
+  height: 8vh;
+  transition: all.5s;
+}
+
+p {
+  margin: 0;
+}
+
+p:empty:not(:focus)::before {
+  content: attr(data-placeholder);
+}
+
+.done {
+  text-decoration: line-through;
 }
