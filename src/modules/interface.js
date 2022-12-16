@@ -19,9 +19,9 @@ function updateProjectsUI(project) {
 
 function checkTask(checkboxElem) {
   if (checkboxElem.checked) {
-    console.log(event.target.parentElement.classList.add("done"));
+    event.target.parentElement.classList.add("done");
   } else {
-    console.log(event.target.parentElement.classList.remove("done"));
+    event.target.parentElement.classList.remove("done");
   }
 }
 
