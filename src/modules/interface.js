@@ -6,6 +6,9 @@ function updateTasksUI(task) {
   const html = `<div class="card task-card" ondblclick="expandCard()" >
   
     <h3 class="task-title"><input type="checkbox" onchange="checkTask(this)">${task.title}</h3>
+    <div class='task-details'>
+    <p data-placeholder="Notes" contenteditable></p>
+    </div>
     </div>`;
 
   tasksDisplay.insertAdjacentHTML("beforeend", html);
@@ -27,13 +30,14 @@ function checkTask(checkboxElem) {
 }
 
 function expandCard() {
-  event.target.parentElement.classList.toggle("expanded");
+  if (event.target.parentElement.classList.contains("task-card")) {
+    event.target.parentElement.classList.add("expanded");
+  }
 }
-
 window.addEventListener("click", () => {
-  console.log(taskCards);
   for (let card of taskCards) {
     card.classList.remove("expanded");
+    card.classList.add("collapsed");
   }
 });
 
