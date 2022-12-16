@@ -4,8 +4,11 @@ const taskCards = document.getElementsByClassName("task-card");
 
 function updateTasksUI(task) {
   const html = `<div class="card task-card" ondblclick="expandCard()" >
-  
-    <h3 class="task-title"><input type="checkbox" onchange="checkTask(this)">${task.title}</h3>
+  <div class='task-title'>
+    <input type="checkbox" onchange="checkTask(this)" >
+      
+        <h3 class="" contenteditable>${task.title}</h3>
+  </div>
     <div class='task-details'>
     <p data-placeholder="Notes" contenteditable></p>
     </div>

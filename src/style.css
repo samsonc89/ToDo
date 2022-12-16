@@ -16,9 +16,14 @@
 
 .task-card {
   background-color: rgb(183, 183, 183);
+  display: grid;
 }
 
 .task-title {
+  display: flex;
+}
+
+.task-title > h3 {
   margin: 5px 0;
 }
 
