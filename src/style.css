@@ -19,6 +19,11 @@
   display: grid;
 }
 
+.task-card h3,
+.task-card p {
+  outline: none;
+}
+
 .task-title {
   display: flex;
 }
