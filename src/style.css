@@ -17,6 +17,7 @@
 .task-card {
   background-color: rgb(183, 183, 183);
   display: grid;
+  margin-bottom: 5px;
 }
 
 .task-card h3,
