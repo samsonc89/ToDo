@@ -37,11 +37,22 @@ function expandCard() {
     event.target.parentElement.classList.add("expanded");
   }
 }
-window.addEventListener("click", () => {
-  for (let card of taskCards) {
-    card.classList.remove("expanded");
-    card.classList.add("collapsed");
+
+//check if click is within closest task-card that is already expanded, if not remove expanded class from everything
+function closeCard() {
+  if (!event.target.closest(".task-card")?.classList.contains("expanded")) {
+    for (let card of taskCards) {
+      card.classList.remove("expanded");
+      card.classList.add("collapsed");
+    }
   }
+}
+window.addEventListener("click", () => {
+  closeCard();
+  // for (let card of taskCards) {
+  //   card.classList.remove("expanded");
+  //   card.classList.add("collapsed");
+  // }
 });
 
 export { updateTasksUI, updateProjectsUI, checkTask, expandCard };
