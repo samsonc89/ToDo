@@ -43,7 +43,6 @@ function closeCard() {
   if (!event.target.closest(".task-card")?.classList.contains("expanded")) {
     for (let card of taskCards) {
       card.classList.remove("expanded");
-      card.classList.add("collapsed");
     }
   }
 }
