@@ -1,7 +1,9 @@
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
+const sidebar = document.querySelector(".sidebar");
 const taskCards = document.getElementsByClassName("task-card");
 
+//task functions
 function updateTasksUI(task) {
   const html = `<div class="task-card" ondblclick="expandCard()" >
   <div class='task-title'>
@@ -14,21 +16,6 @@ function updateTasksUI(task) {
     </div>
     </div>`;
 
-  tasksDisplay.insertAdjacentHTML("beforeend", html);
-}
-function updateProjectsList(project) {
-  const html = `<div class="project-card" >
-    <h3 class="project-title">${project.title}</h3>
-    </div>`;
-
-  projectsDisplay.insertAdjacentHTML("beforeend", html);
-}
-
-function switchProjectView(project) {
-  tasksDisplay.innerHTML = "";
-  const html = `
-  <h2>${project.title}</h2> 
-  `;
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
@@ -54,6 +41,37 @@ function closeCard() {
     }
   }
 }
+
+//project functions
+function updateProjectsList(project) {
+  const html = `<div class="project-card" >
+    <h3 class="project-title">${project.title}</h3>
+    </div>`;
+
+  projectsDisplay.insertAdjacentHTML("beforeend", html);
+}
+
+function switchProjectView(project) {
+  tasksDisplay.innerHTML = "";
+  const html = `
+  <h2>${project.title}</h2> 
+  `;
+  tasksDisplay.insertAdjacentHTML("beforeend", html);
+}
+
+function clearSelectedProject() {
+  document.querySelector(".selected")?.classList.remove("selected");
+}
+
+function selectProject() {
+  if (event.target.closest(".project-title")) {
+    clearSelectedProject();
+    event.target.classList.add("selected");
+  }
+}
+
+//event listeners
+projectsDisplay.addEventListener("click", selectProject);
 
 window.addEventListener("click", () => {
   closeCard();
