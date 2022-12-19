@@ -3,7 +3,7 @@ const projectsDisplay = document.querySelector(".projects-display");
 const taskCards = document.getElementsByClassName("task-card");
 
 function updateTasksUI(task) {
-  const html = `<div class="card task-card" ondblclick="expandCard()" >
+  const html = `<div class="task-card" ondblclick="expandCard()" >
   <div class='task-title'>
     <input type="checkbox" onchange="checkTask(this)" >
       
@@ -17,7 +17,7 @@ function updateTasksUI(task) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 function updateProjectsUI(project) {
-  const html = `<div class="card project-card" >
+  const html = `<div class="project-card" >
     <h3 class="project-title">${project.title}</h3>
     </div>`;
 
