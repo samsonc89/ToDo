@@ -8,10 +8,9 @@
   display: flex;
 }
 
-@media (min-width: 500px) {
-  .main-wrapper {
-    grid-template-columns: 1fr 3fr;
-  }
+.project-title.selected,
+.view.selected {
+  background-color: lightblue;
 }
 
 .task-card {
@@ -55,4 +54,10 @@ p:empty:not(:focus)::before {
 
 .done {
   text-decoration: line-through;
+}
+
+@media (min-width: 500px) {
+  .main-wrapper {
+    grid-template-columns: 1fr 3fr;
+  }
 }

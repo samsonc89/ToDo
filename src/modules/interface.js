@@ -64,14 +64,15 @@ function clearSelectedProject() {
 }
 
 function selectProject() {
-  if (event.target.closest(".project-title")) {
+  if (event.target.closest(".project-title") || event.target.closest(".view")) {
     clearSelectedProject();
     event.target.classList.add("selected");
+    console.log(event.target, this);
   }
 }
 
 //event listeners
-projectsDisplay.addEventListener("click", selectProject);
+sidebar.addEventListener("click", selectProject);
 
 window.addEventListener("click", () => {
   closeCard();
