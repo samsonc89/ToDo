@@ -16,12 +16,20 @@ function updateTasksUI(task) {
 
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
-function updateProjectsUI(project) {
+function updateProjectsList(project) {
   const html = `<div class="project-card" >
     <h3 class="project-title">${project.title}</h3>
     </div>`;
 
   projectsDisplay.insertAdjacentHTML("beforeend", html);
+}
+
+function switchProjectView(project) {
+  tasksDisplay.innerHTML = "";
+  const html = `
+  <h2>${project.title}</h2> 
+  `;
+  tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
 function checkTask(checkboxElem) {
@@ -51,4 +59,11 @@ window.addEventListener("click", () => {
   closeCard();
 });
 
-export { updateTasksUI, updateProjectsUI, checkTask, expandCard };
+export {
+  updateTasksUI,
+  updateProjectsList,
+  checkTask,
+  expandCard,
+  tasksDisplay,
+  switchProjectView,
+};
