@@ -1,9 +1,10 @@
 import "./style.css";
 import {
   updateTasksUI,
-  updateProjectsUI,
+  updateProjectsList,
   checkTask,
   expandCard,
+  switchProjectView,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
@@ -28,39 +29,31 @@ taskList.forEach((task) => {
   updateTasksUI(task);
 });
 
+//element selectors
 const addTaskBtn = document.querySelector("#add-task-btn");
-addTaskBtn.addEventListener("click", createTask);
-
+const addProjectBtn = document.querySelector("#add-project-btn");
 const titleInput = document.querySelector("#title");
+const projectTitleInput = document.querySelector("#project-title");
+
+addTaskBtn.addEventListener("click", createTask);
+addProjectBtn.addEventListener("click", createProject);
 
 class Task {
-  constructor(
-    title,
-    dueDate,
-    notes,
-    project,
-    priority
-    // checklist = [],
-  ) {
+  constructor(title, dueDate, notes, project, priority, checklist) {
     this.title = title;
     this.dueDate = dueDate;
-    this.notes = notes;
-    this.project = project;
+    this.notes = notes === undefined ? "" : notes;
+    this.project = project === "Tasks" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
-    // this.checklist = [checklist];
+    this.checklist = [];
   }
 }
+
+class Project extends Task {}
 
 function clearFields() {
   titleInput.value = dueDate.value = notes.value = "";
   priority.checked = false;
-}
-
-function addProjectOption(project) {
-  const html = `<option value="${project}">`;
-  document
-    .querySelector("#projects-list")
-    .insertAdjacentHTML("beforeend", html);
 }
 
 function createTask() {
@@ -68,7 +61,7 @@ function createTask() {
     titleInput.value,
     dueDate.value,
     notes.value,
-    "Inbox",
+    `${document.querySelector(".tasks-display > h2").textContent}`,
     priority
   );
   taskList.push(newTask);
@@ -78,19 +71,20 @@ function createTask() {
 }
 
 function createProject() {
-  const newTask = new Task(
-    titleInput.value,
+  const newProject = new Project(
+    projectTitleInput.value,
     dueDate.value,
     notes.value,
-    project.value,
+    projectTitleInput.value,
     priority
   );
-  projectsList.push(newTask);
-  addProjectOption(newTask.project);
+  projectsList.push(newProject);
+  switchProjectView(newProject);
   clearFields();
   console.log(taskList, projectsList);
-  updateProjectsUI(projectsList.at(-1));
+  updateProjectsList(projectsList.at(-1));
 }
+
 window.checkTask = checkTask;
 window.expandCard = expandCard;
 
