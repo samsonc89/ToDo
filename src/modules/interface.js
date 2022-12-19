@@ -10,7 +10,7 @@ function updateTasksUI(task) {
         <h3 class="" contenteditable>${task.title}</h3>
   </div>
     <div class='task-details'>
-    <p data-placeholder="Notes" contenteditable></p>
+    <p data-placeholder="Notes" contenteditable>${task.notes}</p>
     </div>
     </div>`;
 
@@ -46,12 +46,9 @@ function closeCard() {
     }
   }
 }
+
 window.addEventListener("click", () => {
   closeCard();
-  // for (let card of taskCards) {
-  //   card.classList.remove("expanded");
-  //   card.classList.add("collapsed");
-  // }
 });
 
 export { updateTasksUI, updateProjectsUI, checkTask, expandCard };
