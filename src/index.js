@@ -6,6 +6,7 @@ import {
   expandCard,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
+
 let task1 = {
   title: "Test1",
   dueDate: "",
@@ -27,12 +28,8 @@ taskList.forEach((task) => {
   updateTasksUI(task);
 });
 
-const addBtn = document.querySelector("#add-btn");
-addBtn.addEventListener("click", () => {
-  if (project.value === "") {
-    createTask();
-  } else createProject();
-});
+const addTaskBtn = document.querySelector("#add-task-btn");
+addTaskBtn.addEventListener("click", createTask);
 
 const titleInput = document.querySelector("#title");
 
@@ -55,7 +52,7 @@ class Task {
 }
 
 function clearFields() {
-  titleInput.value = dueDate.value = notes.value = project.value = "";
+  titleInput.value = dueDate.value = notes.value = "";
   priority.checked = false;
 }
 
