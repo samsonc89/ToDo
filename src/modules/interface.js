@@ -1,3 +1,5 @@
+import { projectsList } from "..";
+
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
 const sidebar = document.querySelector(".sidebar");
@@ -51,12 +53,23 @@ function updateProjectsList(project) {
   projectsDisplay.insertAdjacentHTML("beforeend", html);
 }
 
-function switchProjectView(project) {
+function newProjectView(project) {
   tasksDisplay.innerHTML = "";
   const html = `
   <h2>${project.title}</h2> 
   `;
   tasksDisplay.insertAdjacentHTML("beforeend", html);
+}
+
+function switchProjectView() {
+  const found = projectsList.find(
+    (project) => project.title === `${event.target.innerHTML}`
+  );
+  console.log(found.checklist);
+  tasksDisplay.innerHTML = `<h3 class="project-title">${found.title}</h3>`;
+  found.checklist.forEach((task) => {
+    updateTasksUI(task);
+  });
 }
 
 function clearSelectedProject() {
@@ -67,7 +80,7 @@ function selectProject() {
   if (event.target.closest(".project-title") || event.target.closest(".view")) {
     clearSelectedProject();
     event.target.classList.add("selected");
-    console.log(event.target, this);
+    switchProjectView();
   }
 }
 
@@ -84,5 +97,5 @@ export {
   checkTask,
   expandCard,
   tasksDisplay,
-  switchProjectView,
+  newProjectView,
 };
