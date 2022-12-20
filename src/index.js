@@ -88,9 +88,10 @@ function clearFields() {
 }
 
 function createTask() {
-  let currentProjectName = document.querySelector(
-    ".tasks-display > h2"
-  ).textContent;
+  let currentProjectName =
+    document.querySelector(".tasks-display > h2").textContent == "Today"
+      ? "Inbox"
+      : document.querySelector(".tasks-display > h2").textContent;
   const newTask = new Task(
     titleInput.value,
     dueDate.value,
@@ -99,7 +100,7 @@ function createTask() {
     priority
   );
 
-  // if (currentProjectName !== "Inbox") {
+  // if (currentProjectName == "Today") {
   const found = projectsList.find(
     (project) => project.title === currentProjectName
   );
