@@ -87,11 +87,16 @@ function createTask() {
     projectName,
     priority
   );
-  const found = projectsList.find((project) => project.title === projectName);
-  found.checklist.push(newTask);
+
+  if (projectName !== "Tasks") {
+    const found = projectsList.find((project) => project.title === projectName);
+    found.checklist.push(newTask);
+    updateTasksUI(found.checklist.at(-1));
+  } else {
+    taskList.push(newTask);
+    updateTasksUI(taskList.at(-1));
+  }
   clearFields();
-  console.log(taskList, projectsList);
-  updateTasksUI(found.checklist.at(-1));
 }
 
 function createProject() {
