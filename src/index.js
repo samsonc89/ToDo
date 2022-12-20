@@ -4,29 +4,49 @@ import {
   updateProjectsList,
   checkTask,
   expandCard,
-  switchProjectView,
+  newProjectView,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
-let task1 = {
+let project1 = {
   title: "Test1",
   dueDate: "",
   notes: "",
   project: "",
   priority: false,
+  checklist: [],
 };
-let task2 = {
+let project2 = {
   title: "Testing 2",
   dueDate: "",
   notes: "",
   project: "",
   priority: false,
-};
-let taskList = [task1, task2];
-let projectsList = [];
+  checklist: [
+    {
+      title: "Project task 1",
+      dueDate: "",
+      notes: "",
+      project: "project 2",
+      priority: false,
+      checklist: [],
+    },
 
-taskList.forEach((task) => {
-  updateTasksUI(task);
+    {
+      title: "Project task 2",
+      dueDate: "",
+      notes: "",
+      project: "project 2",
+      priority: false,
+      checklist: [],
+    },
+  ],
+};
+let taskList = [];
+let projectsList = [project1, project2];
+
+projectsList.forEach((task) => {
+  updateProjectsList(task);
 });
 
 //element selectors
@@ -43,7 +63,7 @@ class Task {
     this.title = title;
     this.dueDate = dueDate;
     this.notes = notes === undefined ? "" : notes;
-    this.project = project === "Tasks" ? "Inbox" : project;
+    this.project = project === "Tasks" || project === "All" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
   }
@@ -57,17 +77,21 @@ function clearFields() {
 }
 
 function createTask() {
+  let projectName = `${
+    document.querySelector(".tasks-display > h2").textContent
+  }`;
   const newTask = new Task(
     titleInput.value,
     dueDate.value,
     notes.value,
-    `${document.querySelector(".tasks-display > h2").textContent}`,
+    projectName,
     priority
   );
-  taskList.push(newTask);
+  const found = projectsList.find((project) => project.title === projectName);
+  found.checklist.push(newTask);
   clearFields();
   console.log(taskList, projectsList);
-  updateTasksUI(taskList.at(-1));
+  updateTasksUI(found.checklist.at(-1));
 }
 
 function createProject() {
@@ -79,7 +103,7 @@ function createProject() {
     priority
   );
   projectsList.push(newProject);
-  switchProjectView(newProject);
+  newProjectView(newProject);
   clearFields();
   console.log(taskList, projectsList);
   updateProjectsList(projectsList.at(-1));
