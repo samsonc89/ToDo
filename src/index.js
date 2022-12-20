@@ -14,7 +14,7 @@ let project1 = {
   notes: "",
   project: "",
   priority: false,
-  checklist: [],
+  tasks: [],
 };
 let project2 = {
   title: "Testing 2",
@@ -22,10 +22,10 @@ let project2 = {
   notes: "",
   project: "",
   priority: false,
-  checklist: [
+  tasks: [
     {
       title: "Project task 1",
-      dueDate: "",
+      dueDate: "2022-12-01",
       notes: "",
       project: "project 2",
       priority: false,
@@ -34,7 +34,7 @@ let project2 = {
 
     {
       title: "Project task 2",
-      dueDate: "",
+      dueDate: "2022-12-11",
       notes: "",
       project: "project 2",
       priority: false,
@@ -50,7 +50,7 @@ const projectsList = [
     notes: "",
     project: "Inbox",
     priority: false,
-    checklist: [],
+    tasks: [],
   },
   project1,
   project2,
@@ -59,7 +59,7 @@ const projectsList = [
 projectsList.slice(1).forEach((task) => {
   updateProjectsList(task);
 });
-
+console.log(projectsList);
 //element selectors
 const addTaskBtn = document.querySelector("#add-task-btn");
 const addProjectBtn = document.querySelector("#add-project-btn");
@@ -69,18 +69,27 @@ const projectTitleInput = document.querySelector("#project-title");
 addTaskBtn.addEventListener("click", createTask);
 addProjectBtn.addEventListener("click", createProject);
 
-class Task {
+class Project {
+  constructor(title, dueDate, notes, project, tasks) {
+    this.title = title;
+    this.dueDate = dueDate;
+    this.notes = notes === undefined ? "" : notes;
+    this.tasks = [];
+  }
+}
+
+class Task extends Project {
   constructor(title, dueDate, notes, project, priority, checklist) {
+    super();
     this.title = title;
     this.dueDate = dueDate;
     this.notes = notes === undefined ? "" : notes;
     this.project = project === "Inbox" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
+    delete this.tasks;
   }
 }
-
-class Project extends Task {}
 
 function clearFields() {
   titleInput.value = dueDate.value = notes.value = "";
@@ -104,8 +113,8 @@ function createTask() {
   const found = projectsList.find(
     (project) => project.title === currentProjectName
   );
-  found.checklist.push(newTask);
-  updateTasksUI(found.checklist.at(-1));
+  found.tasks.push(newTask);
+  updateTasksUI(found.tasks.at(-1));
   // } else {
   //   taskList.push(newTask);
   //   updateTasksUI(taskList.at(-1));
@@ -119,8 +128,7 @@ function createProject() {
     projectTitleInput.value,
     dueDate.value,
     notes.value,
-    projectTitleInput.value,
-    priority
+    projectTitleInput.value
   );
   projectsList.push(newProject);
   newProjectView(newProject);
@@ -140,7 +148,7 @@ Projects = {
     Notes: ,
     Priority: ,
     Status: ,
-    Checklist: ,
+    tasks: ,
 
 }
 Tasks = {
