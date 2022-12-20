@@ -3,6 +3,7 @@ import { projectsList } from "..";
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
 const sidebar = document.querySelector(".sidebar");
+const todayView = document.querySelector("#today-view");
 const taskCards = document.getElementsByClassName("task-card");
 
 //task functions
@@ -61,15 +62,26 @@ function newProjectView(project) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
-function switchProjectView() {
-  const found = projectsList.find(
-    (project) => project.title === `${event.target.innerHTML}`
-  );
-  console.log(found.checklist);
-  tasksDisplay.innerHTML = `<h3 class="project-title">${found.title}</h3>`;
-  found.checklist.forEach((task) => {
-    updateTasksUI(task);
-  });
+function switchCurrentView() {
+  if (event.target.closest(".view")) {
+    let viewTitle = event.target.closest(".view").id.split("-")[0];
+    tasksDisplay.innerHTML = `<h2 class="project-title">${
+      viewTitle[0].toUpperCase() + viewTitle.substring(1)
+    }</h2>`;
+  } else {
+    const found = projectsList.find(
+      (project) => project.title === `${event.target.innerHTML}`
+    );
+    tasksDisplay.innerHTML = `<h2 class="project-title">${found.title}</h2>`;
+    found.checklist.forEach((task) => {
+      updateTasksUI(task);
+    });
+  }
+}
+
+todayView.addEventListener("click", switchToTodayView);
+function switchToTodayView() {
+  console.log("Hello");
 }
 
 function clearSelectedProject() {
@@ -80,7 +92,7 @@ function selectProject() {
   if (event.target.closest(".project-title") || event.target.closest(".view")) {
     clearSelectedProject();
     event.target.classList.add("selected");
-    switchProjectView();
+    switchCurrentView();
   }
 }
 
