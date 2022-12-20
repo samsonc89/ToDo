@@ -1,4 +1,4 @@
-import { projectsList } from "..";
+import { projectsList, flattenProjects } from "..";
 
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
@@ -71,20 +71,31 @@ function switchCurrentView() {
     tasksDisplay.innerHTML = `<h2 class="project-title">${
       viewTitle[0].toUpperCase() + viewTitle.substring(1)
     }</h2>`;
+    switchToTodayView();
   } else {
     const found = projectsList.find(
       (project) => project.title === `${event.target.innerHTML}`
     );
     tasksDisplay.innerHTML = `<h2 class="project-title">${found.title}</h2>`;
-    found.checklist.forEach((task) => {
+    found.tasks.forEach((task) => {
       updateTasksUI(task);
     });
   }
 }
 
-todayView.addEventListener("click", switchToTodayView);
+//go into projects array and find all tasks that have due date of today or earlier
+// todayView.addEventListener("click", switchToTodayView);
+
 function switchToTodayView() {
-  console.log("Hello");
+  const today = Date.now();
+  //flatten our array and find projects that dueDate before today
+  const projectsWithDates = flattenProjects(projectsList).filter(
+    (projects) => projects.dueDate != "" && projects.dueDate < today
+  );
+  // const yesterday = new Date(2022 - 12 - 19);
+  projectsWithDates.forEach((project) => {
+    updateTasksUI(project);
+  });
 }
 
 function clearSelectedProject() {
@@ -113,4 +124,5 @@ export {
   expandCard,
   tasksDisplay,
   newProjectView,
+  selectProject,
 };
