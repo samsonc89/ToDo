@@ -43,9 +43,20 @@ let project2 = {
   ],
 };
 let taskList = [];
-let projectsList = [project1, project2];
+const projectsList = [
+  {
+    title: "Inbox",
+    dueDate: "",
+    notes: "",
+    project: "Inbox",
+    priority: false,
+    checklist: [],
+  },
+  project1,
+  project2,
+];
 
-projectsList.forEach((task) => {
+projectsList.slice(1).forEach((task) => {
   updateProjectsList(task);
 });
 
@@ -63,7 +74,7 @@ class Task {
     this.title = title;
     this.dueDate = dueDate;
     this.notes = notes === undefined ? "" : notes;
-    this.project = project === "Tasks" || project === "All" ? "Inbox" : project;
+    this.project = project === "Inbox" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
   }
@@ -77,26 +88,29 @@ function clearFields() {
 }
 
 function createTask() {
-  let projectName = `${
-    document.querySelector(".tasks-display > h2").textContent
-  }`;
+  let currentProjectName = document.querySelector(
+    ".tasks-display > h2"
+  ).textContent;
   const newTask = new Task(
     titleInput.value,
     dueDate.value,
     notes.value,
-    projectName,
+    currentProjectName,
     priority
   );
 
-  if (projectName !== "Tasks") {
-    const found = projectsList.find((project) => project.title === projectName);
-    found.checklist.push(newTask);
-    updateTasksUI(found.checklist.at(-1));
-  } else {
-    taskList.push(newTask);
-    updateTasksUI(taskList.at(-1));
-  }
+  // if (currentProjectName !== "Inbox") {
+  const found = projectsList.find(
+    (project) => project.title === currentProjectName
+  );
+  found.checklist.push(newTask);
+  updateTasksUI(found.checklist.at(-1));
+  // } else {
+  //   taskList.push(newTask);
+  //   updateTasksUI(taskList.at(-1));
+  // }
   clearFields();
+  console.log(taskList, projectsList);
 }
 
 function createProject() {

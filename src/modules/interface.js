@@ -63,7 +63,10 @@ function newProjectView(project) {
 }
 
 function switchCurrentView() {
-  if (event.target.closest(".view")) {
+  if (
+    event.target.closest("#today-view") ||
+    event.target.closest("#completed-view")
+  ) {
     let viewTitle = event.target.closest(".view").id.split("-")[0];
     tasksDisplay.innerHTML = `<h2 class="project-title">${
       viewTitle[0].toUpperCase() + viewTitle.substring(1)
