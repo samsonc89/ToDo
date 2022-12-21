@@ -19,6 +19,7 @@
   margin-bottom: 5px;
 }
 
+h2,
 .task-card h3,
 .task-card p {
   outline: none;
@@ -50,6 +51,10 @@ p {
 
 p:empty:not(:focus)::before {
   content: attr(data-placeholder);
+}
+h2:empty:not(:focus)::before {
+  content: attr(data-placeholder);
+  color: grey;
 }
 
 .done {
