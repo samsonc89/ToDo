@@ -72,22 +72,36 @@ function newProjectView(project) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
+function getCurrentView() {
+  let target;
+
+  target = projectsList.find(
+    (project) => project.title === `${event.target.innerHTML}`
+  );
+  return target;
+}
+
 function switchCurrentView() {
   if (
     event.target.closest("#today-view") ||
     event.target.closest("#completed-view")
   ) {
+    console.log(event.target);
+    console.log(event.target.classList);
     let viewTitle = event.target.closest(".view").id.split("-")[0];
     tasksDisplay.innerHTML = `<h2 class="project-title">${
       viewTitle[0].toUpperCase() + viewTitle.substring(1)
     }</h2>`;
     switchToTodayView();
   } else {
-    const found = projectsList.find(
-      (project) => project.title === `${event.target.innerHTML}`
-    );
-    tasksDisplay.innerHTML = `<h2 class="project-title">${found.title}</h2>`;
-    found.tasks.forEach((task) => {
+    // const found = projectsList.find(
+    //   (project) => project.title === `${event.target.innerHTML}`
+    // );
+    let target = getCurrentView();
+    console.log(event.target);
+    console.log(event.target.classList);
+    tasksDisplay.innerHTML = `<h2 class="project-title">${target.title}</h2>`;
+    target.tasks.forEach((task) => {
       updateTasksUI(task);
     });
   }
@@ -103,6 +117,13 @@ function switchToTodayView() {
   projectsWithDates.forEach((project) => {
     updateTasksUI(project);
   });
+}
+
+function switchToCompletedView() {
+  const completedProjects = flattenProjects(projectsList).filter(
+    (projects) => projects.completed === true
+  );
+  completedProjects.forEach((project) => updateTasksUI(project));
 }
 
 function clearSelectedProject() {
