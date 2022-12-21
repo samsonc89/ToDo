@@ -72,38 +72,23 @@ function newProjectView(project) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
-function getCurrentView() {
-  let target;
-
-  target = projectsList.find(
-    (project) => project.title === `${event.target.innerHTML}`
-  );
-  return target;
-}
-
 function switchCurrentView() {
-  if (
-    event.target.closest("#today-view") ||
-    event.target.closest("#completed-view")
-  ) {
-    console.log(event.target);
-    console.log(event.target.classList);
-    let viewTitle = event.target.closest(".view").id.split("-")[0];
-    tasksDisplay.innerHTML = `<h2 class="project-title">${
-      viewTitle[0].toUpperCase() + viewTitle.substring(1)
-    }</h2>`;
-    switchToTodayView();
-  } else {
-    // const found = projectsList.find(
-    //   (project) => project.title === `${event.target.innerHTML}`
-    // );
-    let target = getCurrentView();
-    console.log(event.target);
-    console.log(event.target.classList);
-    tasksDisplay.innerHTML = `<h2 class="project-title">${target.title}</h2>`;
-    target.tasks.forEach((task) => {
+  let targetTitle = event.target.textContent;
+  if (event.target.closest(".project-title")) {
+    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable>${targetTitle}</h2>`;
+    const found = projectsList.find((project) => project.title === targetTitle);
+    found.tasks.forEach((task) => {
       updateTasksUI(task);
     });
+  } else {
+    tasksDisplay.innerHTML = `<h2 class="project-title">${targetTitle}</h2>`;
+    if (event.target.closest("#completed-view")) {
+      switchToCompletedView();
+    } else if (event.target.closest("#today-view")) {
+      switchToTodayView();
+    } else {
+      switchToInboxView();
+    }
   }
 }
 
@@ -124,6 +109,12 @@ function switchToCompletedView() {
     (projects) => projects.completed === true
   );
   completedProjects.forEach((project) => updateTasksUI(project));
+}
+function switchToInboxView() {
+  let inbox = projectsList.find((project) => project.title === "Inbox");
+  inbox.tasks.forEach((task) => {
+    updateTasksUI(task);
+  });
 }
 
 function clearSelectedProject() {
@@ -153,4 +144,5 @@ export {
   tasksDisplay,
   newProjectView,
   selectProject,
+  switchToTodayView,
 };
