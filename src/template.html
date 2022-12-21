@@ -13,7 +13,7 @@
     </div>
     <div class="main-wrapper">
       <div class="sidebar">
-        <div class="view" id="inbox-view">Inbox</div>
+        <div class="project-title" id="inbox-view">Inbox</div>
         <div class="view" id="today-view">Today</div>
         <div class="view" id="completed-view">Completed</div>
         <div class="projects-display"><h2>Projects</h2></div>
@@ -59,10 +59,10 @@
           <label for="project-title">Title: </label>
           <input type="text" name="project-title" id="project-title" />
         </div>
-        <div>
+        <!-- <div>
           <label for="dueDate">Due Date: </label>
           <input type="date" name="dueDate" id="dueDate" />
-        </div>
+        </div> -->
         <div>
           <label for="notes">Notes: </label>
           <input type="text" name="notes" id="notes" />
@@ -72,10 +72,7 @@
           <input list="projects-list" name="project" id="project" />
           <datalist id="projects-list"> </datalist>
         </div> -->
-        <div>
-          <label for="priority">Priority:</label>
-          <input type="checkbox" name="priority" id="priority" />
-        </div>
+
         <div class="modal-btns">
           <button id="add-project-btn" type="button">Add Project</button>
           <button class="clear-btn" type="button">Clear</button>
