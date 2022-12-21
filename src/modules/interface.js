@@ -46,13 +46,22 @@ function closeCard() {
 }
 
 //project functions
+
+//use appendchild so it's easier to set conditional for when project title is New
 function updateProjectsList(project) {
   clearSelectedProject();
-  const html = `<div class="project-card" >
-    <h3 class="project-title selected">${project.title}</h3>
-    </div>`;
+  const newProjectCard = document.createElement("div");
+  newProjectCard.classList.add("project-card");
 
-  projectsDisplay.insertAdjacentHTML("beforeend", html);
+  const newProjectTitle = document.createElement("h3");
+  newProjectTitle.classList.add("project-title");
+  newProjectTitle.textContent = `${project.title}`;
+  if (project.title === "New Project") {
+    newProjectTitle.classList.add("selected");
+  }
+
+  newProjectCard.appendChild(newProjectTitle);
+  projectsDisplay.appendChild(newProjectCard);
 }
 
 function newProjectView(project) {
