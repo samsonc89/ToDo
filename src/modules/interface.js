@@ -57,7 +57,7 @@ function updateProjectsList(project) {
 function newProjectView(project) {
   tasksDisplay.innerHTML = "";
   const html = `
-  <h2>${project.title}</h2> 
+  <h2 class='project-heading' contenteditable>${project.title}</h2> 
   `;
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
@@ -82,9 +82,6 @@ function switchCurrentView() {
     });
   }
 }
-
-//go into projects array and find all tasks that have due date of today or earlier
-// todayView.addEventListener("click", switchToTodayView);
 
 function switchToTodayView() {
   const today = Date.now();

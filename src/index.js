@@ -72,7 +72,7 @@ addProjectBtn.addEventListener("click", createProject);
 
 class Project {
   constructor(title, dueDate, notes, project, tasks) {
-    this.title = title;
+    this.title = title === "" ? "New Project" : title;
     this.dueDate = Date.parse(dueDate);
     this.notes = notes === undefined ? "" : notes;
     this.tasks = [];
@@ -139,14 +139,14 @@ function createProject() {
 }
 
 function flattenProjects(array) {
-  let result = [];
+  let flattenedArray = [];
   array.forEach((object) => {
-    result.push(object);
+    flattenedArray.push(object);
     if (Array.isArray(object.tasks)) {
-      result = result.concat(flattenProjects(object.tasks));
+      flattenedArray = flattenedArray.concat(flattenProjects(object.tasks));
     }
   });
-  return result;
+  return flattenedArray;
 }
 
 window.checkTask = checkTask;
