@@ -5,7 +5,6 @@ import {
   checkTask,
   expandCard,
   newProjectView,
-  selectProject,
   switchToTodayView,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
@@ -183,10 +182,10 @@ function createProject() {
     projectTitleInput.value
   );
   projectsList.push(newProject);
-  newProjectView(newProject);
   clearFields();
   console.log(taskList, projectsList);
   updateProjectsList(projectsList.at(-1));
+  newProjectView(newProject);
 }
 
 function flattenProjects(array) {

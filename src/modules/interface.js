@@ -3,7 +3,7 @@ import { projectsList, flattenProjects } from "..";
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
 const sidebar = document.querySelector(".sidebar");
-const todayView = document.querySelector("#today-view");
+
 const taskCards = document.getElementsByClassName("task-card");
 
 //task functions
@@ -69,6 +69,7 @@ function newProjectView(project) {
   const html = `
   <h2 class='project-heading' contenteditable>${project.title}</h2> 
   `;
+  projectsDisplay.lastChild.firstChild.classList.add("selected");
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
@@ -110,6 +111,7 @@ function switchToCompletedView() {
   );
   completedProjects.forEach((project) => updateTasksUI(project));
 }
+
 function switchToInboxView() {
   let inbox = projectsList.find((project) => project.title === "Inbox");
   inbox.tasks.forEach((task) => {
