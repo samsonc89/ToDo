@@ -6,6 +6,7 @@ import {
   expandCard,
   newProjectView,
   selectProject,
+  switchToTodayView,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
@@ -17,15 +18,15 @@ let project1 = {
   priority: false,
   tasks: [],
 };
-let project2 = {
-  title: "Testing 2",
+let project3 = {
+  title: "Project 3",
   dueDate: "",
   notes: "",
   project: "",
   priority: false,
   tasks: [
     {
-      title: "Project task 1",
+      title: "Project 3 task 1",
       dueDate: Date.parse("2022-12-01"),
       notes: "",
       project: "project 2",
@@ -34,12 +35,40 @@ let project2 = {
     },
 
     {
-      title: "Project task 2",
+      title: "Project 3 task 2",
       dueDate: Date.parse("2022-12-11"),
       notes: "",
       project: "project 2",
       priority: false,
       checklist: [],
+      completed: true,
+    },
+  ],
+};
+let project2 = {
+  title: "Testing 2",
+  dueDate: "",
+  notes: "",
+  project: "",
+  priority: false,
+  tasks: [
+    {
+      title: "Project 2 task 1",
+      dueDate: Date.parse("2022-12-01"),
+      notes: "",
+      project: "project 2",
+      priority: false,
+      checklist: [],
+    },
+
+    {
+      title: "Project 2 task 2",
+      dueDate: Date.parse("2022-12-11"),
+      notes: "",
+      project: "project 2",
+      priority: false,
+      checklist: [],
+      completed: true,
     },
   ],
 };
@@ -51,16 +80,36 @@ const projectsList = [
     notes: "",
     project: "Inbox",
     priority: false,
-    tasks: [],
+    tasks: [
+      {
+        title: "Inbox task 1",
+        dueDate: Date.parse("2022-11-11"),
+        notes: "",
+        project: "project 2",
+        priority: false,
+        checklist: [],
+        completed: true,
+      },
+      {
+        title: "Inbox task 2",
+        dueDate: Date.parse("2022-10-11"),
+        notes: "",
+        project: "project 2",
+        priority: false,
+        checklist: [],
+      },
+    ],
   },
   project1,
   project2,
+  project3,
 ];
 
 projectsList.slice(1).forEach((task) => {
   updateProjectsList(task);
 });
 console.log(projectsList);
+switchToTodayView();
 //element selectors
 const addTaskBtn = document.querySelector("#add-task-btn");
 const addProjectBtn = document.querySelector("#add-project-btn");
@@ -71,16 +120,17 @@ addTaskBtn.addEventListener("click", createTask);
 addProjectBtn.addEventListener("click", createProject);
 
 class Project {
-  constructor(title, dueDate, notes, project, tasks) {
+  constructor(title, dueDate, notes, project, tasks, completed) {
     this.title = title === "" ? "New Project" : title;
     this.dueDate = Date.parse(dueDate);
     this.notes = notes === undefined ? "" : notes;
     this.tasks = [];
+    this.completed = false;
   }
 }
 
 class Task extends Project {
-  constructor(title, dueDate, notes, project, priority, checklist) {
+  constructor(title, dueDate, notes, project, priority, checklist, completed) {
     super();
     this.title = title;
     this.dueDate = Date.parse(dueDate);
@@ -88,6 +138,7 @@ class Task extends Project {
     this.project = project === "Inbox" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
+    this.completed = false;
     delete this.tasks;
   }
 }
