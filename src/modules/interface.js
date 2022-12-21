@@ -47,8 +47,9 @@ function closeCard() {
 
 //project functions
 function updateProjectsList(project) {
+  clearSelectedProject();
   const html = `<div class="project-card" >
-    <h3 class="project-title">${project.title}</h3>
+    <h3 class="project-title selected">${project.title}</h3>
     </div>`;
 
   projectsDisplay.insertAdjacentHTML("beforeend", html);
