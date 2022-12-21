@@ -14,7 +14,7 @@ let project1 = {
   dueDate: "",
   notes: "",
   project: "",
-  priority: false,
+  completed: false,
   tasks: [],
 };
 let project3 = {
@@ -22,7 +22,7 @@ let project3 = {
   dueDate: "",
   notes: "",
   project: "",
-  priority: false,
+  completed: false,
   tasks: [
     {
       title: "Project 3 task 1",
@@ -78,7 +78,6 @@ const projectsList = [
     dueDate: "",
     notes: "",
     project: "Inbox",
-    priority: false,
     tasks: [
       {
         title: "Inbox task 1",
@@ -119,25 +118,23 @@ addTaskBtn.addEventListener("click", createTask);
 addProjectBtn.addEventListener("click", createProject);
 
 class Project {
-  constructor(title, dueDate, notes, project, tasks, completed) {
+  constructor(title) {
     this.title = title === "" ? "New Project" : title;
     this.dueDate = Date.parse(dueDate);
-    this.notes = notes === undefined ? "" : notes;
+    this.notes = "";
     this.tasks = [];
     this.completed = false;
   }
 }
 
 class Task extends Project {
-  constructor(title, dueDate, notes, project, priority, checklist, completed) {
-    super();
+  constructor(title, dueDate, notes, project, priority, completed) {
+    super(dueDate, completed);
     this.title = title;
-    this.dueDate = Date.parse(dueDate);
-    this.notes = notes === undefined ? "" : notes;
+    this.notes = notes === "" ? "" : notes;
     this.project = project === "Inbox" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
-    this.completed = false;
     delete this.tasks;
   }
 }
@@ -148,30 +145,29 @@ function clearFields() {
 }
 
 function createTask() {
+  let currentView = document.querySelector(".tasks-display > h2").textContent;
   let currentProjectName =
-    document.querySelector(".tasks-display > h2").textContent == "Today"
+    currentView == "Today"
       ? "Inbox"
       : document.querySelector(".tasks-display > h2").textContent;
+
   const newTask = new Task(
     titleInput.value,
-    dueDate.value,
+    currentView === "Today" ? Date.now() : Date.parse(dueDate.value),
     notes.value,
     currentProjectName,
     priority
   );
 
-  // if (currentProjectName == "Today") {
   const found = projectsList.find(
     (project) => project.title === currentProjectName
   );
   found.tasks.push(newTask);
   updateTasksUI(found.tasks.at(-1));
-  // } else {
-  //   taskList.push(newTask);
-  //   updateTasksUI(taskList.at(-1));
-  // }
+
   clearFields();
-  console.log(taskList, projectsList);
+  console.log(found.tasks);
+  console.log(projectsList);
 }
 
 function createProject() {
