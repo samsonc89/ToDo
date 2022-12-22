@@ -14,13 +14,16 @@
     <div class="main-wrapper">
       <div class="sidebar">
         <div class="view" id="inbox-view">Inbox</div>
-        <div class="view" id="today-view">Today</div>
+        <div class="view selected" id="today-view">Today</div>
         <div class="view" id="completed-view">Completed</div>
         <div class="projects-display"><h2>Projects</h2></div>
       </div>
-      <div class="tasks-display"><h2>Today</h2></div>
+      <div class="right-wrapper">
+        <div class="tasks-display"><h2 class="project-title">Today</h2></div>
+        <button id="new-task-btn">+</button>
+      </div>
     </div>
-    <div id="new-task">
+    <!-- <div id="new-task">
       <h2>Add A New Task <span class="close">&times;</span></h2>
 
       <form action="" method="" onSubmit="return false" class="new-task-form">
@@ -36,11 +39,6 @@
           <label for="notes">Notes: </label>
           <input type="text" name="notes" id="notes" />
         </div>
-        <!-- <div>
-          <label for="project">Project: </label>
-          <input list="projects-list" name="project" id="project" />
-          <datalist id="projects-list"> </datalist>
-        </div> -->
         <div>
           <label for="priority">Priority:</label>
           <input type="checkbox" name="priority" id="priority" />
@@ -50,7 +48,7 @@
           <button class="clear-btn" type="button">Clear</button>
         </div>
       </form>
-    </div>
+    </div> -->
     <div id="new-project">
       <h2>Add A New Project <span class="close">&times;</span></h2>
 
@@ -59,20 +57,6 @@
           <label for="project-title">Title: </label>
           <input type="text" name="project-title" id="project-title" />
         </div>
-        <!-- <div>
-          <label for="dueDate">Due Date: </label>
-          <input type="date" name="dueDate" id="dueDate" />
-        </div> -->
-        <div>
-          <label for="notes">Notes: </label>
-          <input type="text" name="notes" id="notes" />
-        </div>
-        <!-- <div>
-          <label for="project">Project: </label>
-          <input list="projects-list" name="project" id="project" />
-          <datalist id="projects-list"> </datalist>
-        </div> -->
-
         <div class="modal-btns">
           <button id="add-project-btn" type="button">Add Project</button>
           <button class="clear-btn" type="button">Clear</button>
