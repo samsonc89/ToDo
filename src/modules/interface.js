@@ -1,28 +1,100 @@
-import { projectsList, flattenProjects } from "..";
+import { projectsList, flattenProjects, generateID } from "..";
 
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
+const projectTitle = document.querySelector(".project-title");
 const sidebar = document.querySelector(".sidebar");
-
 const taskCards = document.getElementsByClassName("task-card");
+const taskTitles = document.getElementsByClassName("task-title-input");
 
 //task functions
 function updateTasksUI(task) {
-  const html = `<div class="task-card" ondblclick="expandCard()" >
-  <div class='task-title'>
+  const html = `<div class="task-card" ondblclick="expandCard()" id='${task.id}' >
+  <div class='task-title-wrapper'>
     <input type="checkbox" onchange="checkTask(this)" >
       
-        <h3 class="" contenteditable>${task.title}</h3>
+        <h3 class="task-title" contenteditable>${task.title}</h3>
   </div>
     <div class='task-details'>
     <p data-placeholder="Notes" contenteditable>${task.notes}</p>
     </div>
     </div>`;
 
-  tasksDisplay.insertAdjacentHTML("beforeend", html);
+  tasksDisplay.firstChild.insertAdjacentHTML("afterend", html);
 }
 
+function createTaskCard() {
+  document.querySelector(".expanded")?.classList.remove("expanded");
+  const newTaskCard = document.createElement("div");
+  newTaskCard.classList.add("task-card", "expanded");
+  newTaskCard.addEventListener("dblclick", expandCard);
+  newTaskCard.id = generateID();
+
+  const newTaskTitleWrapper = document.createElement("div");
+  newTaskTitleWrapper.classList.add("task-title-wrapper");
+
+  const taskCheckbox = document.createElement("input");
+  taskCheckbox.type = "checkbox";
+  taskCheckbox.onchange = checkTask(this);
+
+  const taskTitleInput = document.createElement("input");
+  taskTitleInput.type = "text";
+  taskTitleInput.classList.add("task-title-input");
+  taskTitleInput.placeholder = "New Task";
+  taskTitleInput.addEventListener("focusout", () => {
+    console.log("hello");
+  });
+
+  const taskDetails = document.createElement("div");
+  taskDetails.classList.add("task-details");
+
+  const notesInput = document.createElement("input");
+  notesInput.type = "text";
+  notesInput.classList.add("task-notes");
+  notesInput.placeholder = "Notes";
+  notesInput.addEventListener("focusout", () => {
+    console.log("hello");
+  });
+
+  taskDetails.appendChild(notesInput);
+  newTaskTitleWrapper.appendChild(taskCheckbox);
+  newTaskTitleWrapper.appendChild(taskTitleInput);
+  newTaskCard.appendChild(newTaskTitleWrapper);
+  newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
+
+  tasksDisplay.appendChild(newTaskCard);
+}
+
+/*
+function createTaskCard() {
+  document.querySelector(".expanded")?.classList.remove("expanded");
+  const newCard = `<div class="task-card expanded" ondblclick="expandCard()" id='${generateID()}' >
+  <div class='task-title-wrapper'>
+    <input type="checkbox" onchange="checkTask(this)" >
+      <input class='task-title-input' type='text' placeholder='New Task'>
+  </div>
+    <div class='task-details'>
+    <p data-placeholder="Notes" contenteditable></p>
+    </div>
+    </div>`;
+
+  projectTitle.insertAdjacentHTML("afterend", newCard);
+  for (let titles of taskTitles) {
+    titles.addEventListener("focusout", () => {
+      console.log("hello", event.target);
+    });
+  }
+}
+
+*/
+
+document
+  .querySelector("#new-task-btn")
+  .addEventListener("click", createTaskCard);
+
 function checkTask(checkboxElem) {
+  console.log(checkboxElem.closest(".task-card"));
+  console.log(event.target);
   if (checkboxElem.checked) {
     event.target.parentElement.classList.add("done");
   } else {
@@ -38,18 +110,15 @@ function expandCard() {
 
 //check if click is within closest task-card that is already expanded, if not remove expanded class from everything
 function closeCard() {
-  if (!event.target.closest(".task-card")?.classList.contains("expanded")) {
-    for (let card of taskCards) {
-      card.classList.remove("expanded");
-    }
-  }
+  document.querySelector(".expanded").classList.remove("expanded");
+
+  // expandedCard.classList.remove("expanded");
 }
 
 //project functions
 
 //use appendchild so it's easier to set conditional for when project title is New
 function updateProjectsList(project) {
-  clearSelectedProject();
   const newProjectCard = document.createElement("div");
   newProjectCard.classList.add("project-card");
 
@@ -65,6 +134,7 @@ function updateProjectsList(project) {
 }
 
 function newProjectView(project) {
+  clearSelectedProject();
   tasksDisplay.innerHTML = "";
   const html = `
   <h2 class='project-heading' contenteditable>${project.title}</h2> 
@@ -73,6 +143,7 @@ function newProjectView(project) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
+//switch views
 function switchCurrentView() {
   let targetTitle = event.target.textContent;
   if (event.target.closest(".project-title")) {
@@ -134,8 +205,13 @@ function selectProject() {
 //event listeners
 sidebar.addEventListener("click", selectProject);
 
-window.addEventListener("click", () => {
-  closeCard();
+window.addEventListener("click", (e) => {
+  if (
+    !e.target.closest(".task-card")?.classList.contains("expanded") &&
+    e.target.id !== "new-task-btn"
+  ) {
+    document.querySelector(".expanded")?.classList.remove("expanded");
+  }
 });
 
 export {
