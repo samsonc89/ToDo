@@ -124,19 +124,40 @@ class Project {
     this.notes = "";
     this.tasks = [];
     this.completed = false;
+    this.id = generateID();
+  }
+  markComplete() {
+    checkTask(this);
+    this.completed = this.completed === false ? true : false;
   }
 }
 
-class Task extends Project {
-  constructor(title, dueDate, notes, project, priority, completed) {
-    super(dueDate, completed);
+class Task {
+  constructor(title, dueDate, notes, project, priority) {
     this.title = title;
+    this.dueDate = dueDate;
     this.notes = notes === "" ? "" : notes;
     this.project = project === "Inbox" ? "Inbox" : project;
     this.priority = priority.checked ? true : false;
     this.checklist = [];
-    delete this.tasks;
+    this.completed = false;
+    this.id = generateID();
   }
+  markComplete() {
+    this.completed = this.completed === false ? true : false;
+  }
+}
+
+function generateID() {
+  //create random 6 digit "id"
+  let randomID = Math.floor(1000000 + Math.random() * 9000000);
+  //search myLibrary for object that has property value with same id
+  while (flattenProjects(projectsList).some((obj) => obj.id === randomID)) {
+    console.log(randomID);
+    randomID = Math.floor(1000000 + Math.random() * 9000000);
+    console.log("repeated");
+  }
+  return randomID;
 }
 
 function clearFields() {
@@ -144,10 +165,14 @@ function clearFields() {
   priority.checked = false;
 }
 
+function marking() {
+  //find the object that corresponds with the click
+}
+
 function createTask() {
   let currentView = document.querySelector(".tasks-display > h2").textContent;
   let currentProjectName =
-    currentView == "Today"
+    currentView === "Today"
       ? "Inbox"
       : document.querySelector(".tasks-display > h2").textContent;
 
@@ -171,12 +196,7 @@ function createTask() {
 }
 
 function createProject() {
-  const newProject = new Project(
-    projectTitleInput.value,
-    dueDate.value,
-    notes.value,
-    projectTitleInput.value
-  );
+  const newProject = new Project(projectTitleInput.value);
   projectsList.push(newProject);
   clearFields();
   console.log(taskList, projectsList);
