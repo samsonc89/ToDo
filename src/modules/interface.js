@@ -24,23 +24,28 @@ function updateTasksUI(task) {
 }
 
 function createTaskCard() {
-  document.querySelector(".expanded")?.classList.remove("expanded");
+  collapseCard();
+  removeSelectedClass();
   const newTaskCard = document.createElement("div");
-  newTaskCard.classList.add("task-card", "expanded");
-  newTaskCard.addEventListener("dblclick", expandCard);
+  newTaskCard.classList.add("task-card", "expanded", "new-card");
   newTaskCard.id = generateID();
+  newTaskCard.addEventListener("dblclick", expandCard);
+  newTaskCard.addEventListener("click", selectCard);
 
   const newTaskTitleWrapper = document.createElement("div");
   newTaskTitleWrapper.classList.add("task-title-wrapper");
 
   const taskCheckbox = document.createElement("input");
   taskCheckbox.type = "checkbox";
-  taskCheckbox.onchange = checkTask(this);
+  taskCheckbox.addEventListener("change", () => {
+    checkTask(this);
+  });
 
   const taskTitleInput = document.createElement("input");
   taskTitleInput.type = "text";
   taskTitleInput.classList.add("task-title-input");
   taskTitleInput.placeholder = "New Task";
+  taskTitleInput.addEventListener("dblclick", expandCard);
   taskTitleInput.addEventListener("focusout", () => {
     console.log("hello");
   });
@@ -65,54 +70,46 @@ function createTaskCard() {
   tasksDisplay.appendChild(newTaskCard);
 }
 
-/*
-function createTaskCard() {
-  document.querySelector(".expanded")?.classList.remove("expanded");
-  const newCard = `<div class="task-card expanded" ondblclick="expandCard()" id='${generateID()}' >
-  <div class='task-title-wrapper'>
-    <input type="checkbox" onchange="checkTask(this)" >
-      <input class='task-title-input' type='text' placeholder='New Task'>
-  </div>
-    <div class='task-details'>
-    <p data-placeholder="Notes" contenteditable></p>
-    </div>
-    </div>`;
-
-  projectTitle.insertAdjacentHTML("afterend", newCard);
-  for (let titles of taskTitles) {
-    titles.addEventListener("focusout", () => {
-      console.log("hello", event.target);
-    });
-  }
-}
-
-*/
-
 document
   .querySelector("#new-task-btn")
   .addEventListener("click", createTaskCard);
 
 function checkTask(checkboxElem) {
-  console.log(checkboxElem.closest(".task-card"));
+  console.log(checkboxElem.parentElement);
   console.log(event.target);
   if (checkboxElem.checked) {
+    console.log(event.target.nextSibling);
     event.target.parentElement.classList.add("done");
   } else {
     event.target.parentElement.classList.remove("done");
   }
 }
 
-function expandCard() {
-  if (event.target.parentElement.classList.contains("task-card")) {
-    event.target.parentElement.classList.add("expanded");
-  }
+function collapseCard() {
+  document.querySelector(".expanded")?.classList.remove("expanded");
 }
 
-//check if click is within closest task-card that is already expanded, if not remove expanded class from everything
-function closeCard() {
-  document.querySelector(".expanded").classList.remove("expanded");
-
-  // expandedCard.classList.remove("expanded");
+function expandCard() {
+  // if (event.target.closest(".task-card")) {
+  event.target.closest(".task-card").classList.add("expanded");
+  // }
+}
+function removeSelectedClass() {
+  document
+    .querySelectorAll(".selected-card")
+    .forEach((card) => card.classList.remove("selected-card"));
+}
+function selectCard() {
+  if (event.target.closest(".task-card")) {
+    removeSelectedClass();
+    event.target.closest(".task-card").classList.add("selected-card");
+    event.target
+      .closest(".task-card")
+      .firstChild.classList.add("selected-card");
+    event.target
+      .closest(".task-card")
+      .firstChild.firstChild.nextSibling.classList.add("selected-card");
+  }
 }
 
 //project functions
@@ -205,12 +202,14 @@ function selectProject() {
 //event listeners
 sidebar.addEventListener("click", selectProject);
 
+//collapse card and remove new-card class when clicking out of expanded card
 window.addEventListener("click", (e) => {
   if (
     !e.target.closest(".task-card")?.classList.contains("expanded") &&
     e.target.id !== "new-task-btn"
   ) {
-    document.querySelector(".expanded")?.classList.remove("expanded");
+    collapseCard();
+    document.querySelector(".new-card")?.classList.remove("new-card");
   }
 });
 
