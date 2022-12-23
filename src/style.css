@@ -8,15 +8,24 @@
   display: flex;
 }
 
+.button-wrapper {
+  margin-top: auto;
+}
 .project-title.selected,
 .view.selected {
   background-color: lightblue;
 }
 
+.tasks-display {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .task-card {
   background-color: rgb(183, 183, 183);
   display: grid;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 h2,
@@ -25,13 +34,24 @@ h2,
   outline: none;
 }
 
-.task-title {
+.task-title-wrapper {
   display: flex;
 }
 
-.task-title > h3 {
+.task-title-wrapper > h3 {
   margin: 5px 0;
 }
+
+input[type="text"],
+textarea {
+  background-color: #b7b7b7;
+  border: none;
+  outline: none;
+  font-size: 1.2rem;
+}
+
+/* input {
+} */
 
 .task-details {
   opacity: 0;
