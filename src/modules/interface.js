@@ -86,11 +86,16 @@ function checkTask(checkboxElem) {
 }
 
 function collapseCard() {
+  document
+    .querySelector(".task-title-input.selected-card")
+    ?.setAttribute("readonly", "readonly");
   document.querySelector(".expanded")?.classList.remove("expanded");
 }
 
 function expandCard() {
-  // if (event.target.closest(".task-card")) {
+  document
+    .querySelector(".task-title-input.selected-card")
+    ?.removeAttribute("readonly");
   event.target.closest(".task-card").classList.add("expanded");
   // }
 }
@@ -99,6 +104,7 @@ function removeSelectedClass() {
     .querySelectorAll(".selected-card")
     .forEach((card) => card.classList.remove("selected-card"));
 }
+
 function selectCard() {
   if (event.target.closest(".task-card")) {
     removeSelectedClass();
