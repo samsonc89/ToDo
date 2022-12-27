@@ -70,15 +70,24 @@ function createTaskCard() {
   tasksDisplay.appendChild(newTaskCard);
 }
 
-document
-  .querySelector("#new-task-btn")
-  .addEventListener("click", createTaskCard);
+function matchDOMElemAndObject(e) {
+  let objectID = e.id;
+  let testObject = flattenProjects(projectsList).find(
+    (projects) => projects.id == objectID
+  );
+  return testObject;
+}
 
 function checkTask() {
   if (event.target.checked) {
+    let foundObject = matchDOMElemAndObject(event.target.closest(".task-card"));
+    console.log(foundObject);
+    foundObject.completed = foundObject.completed === false ? true : false;
+    console.log(foundObject);
     event.target.parentElement.classList.add("done");
   } else {
     event.target.parentElement.classList.remove("done");
+    foundObject.completed = foundObject.completed === false ? true : false;
   }
 }
 
@@ -203,6 +212,11 @@ function selectProject() {
 }
 
 //event listeners
+
+document
+  .querySelector("#new-task-btn")
+  .addEventListener("click", createTaskCard);
+
 sidebar.addEventListener("click", selectProject);
 
 //collapse card and remove new-card class when clicking out of expanded card
