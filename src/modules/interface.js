@@ -38,7 +38,7 @@ function createTaskCard() {
   const taskCheckbox = document.createElement("input");
   taskCheckbox.type = "checkbox";
   taskCheckbox.addEventListener("change", () => {
-    checkTask(this);
+    checkTask();
   });
 
   const taskTitleInput = document.createElement("input");
@@ -74,11 +74,8 @@ document
   .querySelector("#new-task-btn")
   .addEventListener("click", createTaskCard);
 
-function checkTask(checkboxElem) {
-  console.log(checkboxElem.parentElement);
-  console.log(event.target);
-  if (checkboxElem.checked) {
-    console.log(event.target.nextSibling);
+function checkTask() {
+  if (event.target.checked) {
     event.target.parentElement.classList.add("done");
   } else {
     event.target.parentElement.classList.remove("done");
