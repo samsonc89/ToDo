@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: rgb(225, 225, 225);
+  color: rgb(255, 255, 255);
   background-color: #3d353d;
 }
 
@@ -13,6 +13,7 @@
 }
 
 .sidebar {
+  padding: 20px 10px;
   display: flex;
 
   grid-row: 1/3;
@@ -50,10 +51,27 @@
   margin: 10px 20px;
 }
 
+@keyframes append-animate {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.new-card {
+  transform-origin: 50% 0;
+  animation: append-animate 0.2s linear;
+}
+
 .task-card {
   /* background-color: #b7b7b7; */
   display: grid;
   padding: 5px;
+  border-radius: 10px;
   /* margin-bottom: 5px; */
 }
 
@@ -79,10 +97,15 @@ textarea {
   outline: none;
   font-size: 1.1rem;
   line-height: 1.1rem;
+  width: 100%;
 }
 
 /* input {
 } */
+
+.selected-card {
+  background-color: #2d5292;
+}
 
 .task-details {
   opacity: 0;
@@ -91,6 +114,7 @@ textarea {
 }
 
 .expanded,
+.expanded *,
 .expanded input[type="text"],
 textarea {
   background-color: rgb(150, 150, 150);
