@@ -6,6 +6,7 @@ import {
   expandCard,
   newProjectView,
   switchToTodayView,
+  createTaskCard,
 } from "./modules/interface.js";
 // import { createTask } from "./modules/tasks.js";
 
@@ -16,6 +17,7 @@ let project1 = {
   project: "",
   completed: false,
   tasks: [],
+  id: 45678,
 };
 let project3 = {
   title: "Project 3",
@@ -23,6 +25,7 @@ let project3 = {
   notes: "",
   project: "",
   completed: false,
+  id: 12345,
   tasks: [
     {
       title: "Project 3 task 1",
@@ -31,6 +34,7 @@ let project3 = {
       project: "project 2",
       priority: false,
       checklist: [],
+      id: 341273,
     },
 
     {
@@ -41,6 +45,7 @@ let project3 = {
       priority: false,
       checklist: [],
       completed: true,
+      id: 341231,
     },
   ],
 };
@@ -58,6 +63,7 @@ let project2 = {
       project: "project 2",
       priority: false,
       checklist: [],
+      id: 947571,
     },
 
     {
@@ -68,6 +74,7 @@ let project2 = {
       priority: false,
       checklist: [],
       completed: true,
+      id: 834656,
     },
   ],
 };
@@ -87,6 +94,7 @@ const projectsList = [
         priority: false,
         checklist: [],
         completed: true,
+        id: 86544,
       },
       {
         title: "Inbox task 2",
@@ -95,6 +103,7 @@ const projectsList = [
         project: "project 2",
         priority: false,
         checklist: [],
+        id: 657838,
       },
     ],
   },
@@ -114,8 +123,8 @@ const addProjectBtn = document.querySelector("#add-project-btn");
 const titleInput = document.querySelector("#title");
 const projectTitleInput = document.querySelector("#project-title");
 
-addTaskBtn.addEventListener("click", createTask);
-addProjectBtn.addEventListener("click", createProject);
+// addTaskBtn.addEventListener("click", createTask);
+// addProjectBtn.addEventListener("click", createProject);
 
 class Project {
   constructor(title) {
@@ -133,15 +142,15 @@ class Project {
 }
 
 class Task {
-  constructor(title, dueDate, notes, project, priority) {
-    this.title = title;
-    this.dueDate = dueDate;
-    this.notes = notes === "" ? "" : notes;
+  constructor(id, project) {
+    this.title = "";
+    this.dueDate = "";
+    this.notes = "";
     this.project = project === "Inbox" ? "Inbox" : project;
-    this.priority = priority.checked ? true : false;
+    this.priority = false;
     this.checklist = [];
     this.completed = false;
-    this.id = generateID();
+    this.id = id;
   }
   markComplete() {
     this.completed = this.completed === false ? true : false;
@@ -160,37 +169,20 @@ function generateID() {
   return randomID;
 }
 
-function clearFields() {
-  titleInput.value = dueDate.value = notes.value = "";
-  priority.checked = false;
-}
-
-function marking() {
-  //find the object that corresponds with the click
-}
-
-function createTask() {
+function createTask(id) {
   let currentView = document.querySelector(".tasks-display > h2").textContent;
   let currentProjectName =
     currentView === "Today"
       ? "Inbox"
       : document.querySelector(".tasks-display > h2").textContent;
 
-  const newTask = new Task(
-    titleInput.value,
-    currentView === "Today" ? Date.now() : Date.parse(dueDate.value),
-    notes.value,
-    currentProjectName,
-    priority
-  );
+  const newTask = new Task(id, currentProjectName);
 
   const found = projectsList.find(
     (project) => project.title === currentProjectName
   );
   found.tasks.push(newTask);
-  updateTasksUI(found.tasks.at(-1));
 
-  clearFields();
   console.log(found.tasks);
   console.log(projectsList);
 }
@@ -215,10 +207,17 @@ function flattenProjects(array) {
   return flattenedArray;
 }
 
+//event listeners
+document.querySelector("#new-task-btn").addEventListener("click", () => {
+  let newObjectID = createTaskCard();
+  console.log(newObjectID);
+  createTask(newObjectID);
+});
+
 window.checkTask = checkTask;
 window.expandCard = expandCard;
 
-export { taskList, projectsList, flattenProjects };
+export { taskList, projectsList, flattenProjects, generateID };
 /*
 Projects = {
     name: ,
