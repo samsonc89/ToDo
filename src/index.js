@@ -185,7 +185,6 @@ function createTask(id) {
     (project) => project.title === currentProjectName
   );
   found.tasks.push(newTask);
-
   console.log(found.tasks);
   console.log(projectsList);
 }
@@ -230,9 +229,10 @@ function updateObject() {
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
-  let newObjectID = createTaskCard();
-  console.log(newObjectID);
-  createTask(newObjectID);
+  let newObject = createTaskCard();
+  document.querySelector(".expanded>div>.task-title-input").focus();
+  console.log(newObject);
+  createTask(newObject);
 });
 
 window.checkTask = checkTask;
