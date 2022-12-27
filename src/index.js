@@ -155,6 +155,9 @@ class Task {
   markComplete() {
     this.completed = this.completed === false ? true : false;
   }
+  set newTitle(text) {
+    this.title = text;
+  }
 }
 
 function generateID() {
@@ -207,6 +210,24 @@ function flattenProjects(array) {
   return flattenedArray;
 }
 
+function findProjectByID(id) {
+  let object = flattenProjects(projectsList).find(
+    (projects) => projects.id == id
+  );
+  return object;
+}
+
+function updateObject() {
+  const targetObject = findProjectByID(document.querySelector(".expanded")?.id);
+
+  targetObject.newTitle = document.querySelector(
+    ".expanded>div>.task-title-input"
+  )?.value;
+  targetObject.notes = document.querySelector(
+    ".expanded>div>.task-notes"
+  )?.value;
+  console.log(targetObject);
+}
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
   let newObjectID = createTaskCard();
@@ -216,8 +237,16 @@ document.querySelector("#new-task-btn").addEventListener("click", () => {
 
 window.checkTask = checkTask;
 window.expandCard = expandCard;
+window.projectsList = projectsList;
 
-export { taskList, projectsList, flattenProjects, generateID };
+export {
+  taskList,
+  projectsList,
+  flattenProjects,
+  generateID,
+  updateObject,
+  findProjectByID,
+};
 /*
 Projects = {
     name: ,
