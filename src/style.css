@@ -108,6 +108,13 @@ textarea {
   background-color: #2d5292;
 }
 
+.task-btn-wrapper {
+  display: flex;
+  gap: 15px;
+  float: right;
+  margin-right: 5vw;
+}
+
 .task-details,
 .task-btn-wrapper,
 .task-notes {
