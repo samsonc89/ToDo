@@ -47,9 +47,6 @@ function createNewTaskCard(task) {
   const notesInput = document.createElement("textarea");
   notesInput.classList.add("task-notes");
   notesInput.placeholder = "Notes";
-  notesInput.addEventListener("focusout", () => {
-    console.log("hello");
-  });
   notesInput.setAttribute(
     "oninput",
     'this.style.height = "";this.style.height = this.scrollHeight + "px"'
@@ -59,16 +56,13 @@ function createNewTaskCard(task) {
   taskBtnWrapper.classList.add("task-btn-wrapper");
 
   const dueDateBtn = document.createElement("button");
-  dueDateBtn.classList.add("task-btn");
-  dueDateBtn.innerHTML = "D";
+  dueDateBtn.classList.add("task-btn", "due-date-btn");
 
   const priorityBtn = document.createElement("button");
-  priorityBtn.classList.add("task-btn");
-  priorityBtn.innerHTML = "C";
+  priorityBtn.classList.add("task-btn", "priority-btn");
 
   const checklistBtn = document.createElement("button");
-  checklistBtn.classList.add("task-btn");
-  checklistBtn.innerHTML = "P";
+  checklistBtn.classList.add("task-btn", "checklist-btn");
 
   taskBtnWrapper.appendChild(dueDateBtn);
   taskBtnWrapper.appendChild(checklistBtn);
