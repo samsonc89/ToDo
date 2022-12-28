@@ -119,6 +119,11 @@ textarea {
   margin-right: 5vw;
 }
 
+.due-date-picker {
+  border: none;
+  width: fit-content;
+  color: #dddddd;
+}
 .task-btn {
   width: 5vw;
   height: 5vw;
