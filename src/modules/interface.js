@@ -1,4 +1,10 @@
-import { projectsList, flattenProjects, generateID } from "..";
+import {
+  projectsList,
+  flattenProjects,
+  generateID,
+  updateObject,
+  findProjectByID,
+} from "..";
 
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
@@ -8,27 +14,12 @@ const taskCards = document.getElementsByClassName("task-card");
 const taskTitles = document.getElementsByClassName("task-title-input");
 
 //task functions
-function updateTasksUI(task) {
-  const html = `<div class="task-card" ondblclick="expandCard()" id='${task.id}' >
-  <div class='task-title-wrapper'>
-    <input type="checkbox" onchange="checkTask(this)" >
-      
-        <h3 class="task-title" contenteditable>${task.title}</h3>
-  </div>
-    <div class='task-details'>
-    <p data-placeholder="Notes" contenteditable>${task.notes}</p>
-    </div>
-    </div>`;
 
-  tasksDisplay.firstChild.insertAdjacentHTML("afterend", html);
-}
-
-function createTaskCard() {
+function createNewTaskCard(task) {
   collapseCard();
   removeSelectedClass();
   const newTaskCard = document.createElement("div");
-  newTaskCard.classList.add("task-card", "expanded", "new-card");
-  newTaskCard.id = generateID();
+
   newTaskCard.addEventListener("dblclick", expandCard);
   newTaskCard.addEventListener("click", selectCard);
 
@@ -53,48 +44,78 @@ function createTaskCard() {
   const taskDetails = document.createElement("div");
   taskDetails.classList.add("task-details");
 
-  const notesInput = document.createElement("input");
-  notesInput.type = "text";
+  const notesInput = document.createElement("textarea");
   notesInput.classList.add("task-notes");
   notesInput.placeholder = "Notes";
   notesInput.addEventListener("focusout", () => {
     console.log("hello");
   });
 
+  const taskBtnWrapper = document.createElement("div");
+  taskBtnWrapper.classList.add("task-btn-wrapper");
+
+  const dueDateBtn = document.createElement("button");
+  dueDateBtn.classList.add("task-btn");
+  dueDateBtn.innerHTML = "D";
+
+  const priorityBtn = document.createElement("button");
+  priorityBtn.classList.add("task-btn");
+  priorityBtn.innerHTML = "C";
+
+  const checklistBtn = document.createElement("button");
+  checklistBtn.classList.add("task-btn");
+  checklistBtn.innerHTML = "P";
+
+  taskBtnWrapper.appendChild(dueDateBtn);
+  taskBtnWrapper.appendChild(checklistBtn);
+  taskBtnWrapper.appendChild(priorityBtn);
+
   taskDetails.appendChild(notesInput);
+  taskDetails.appendChild(taskBtnWrapper);
   newTaskTitleWrapper.appendChild(taskCheckbox);
   newTaskTitleWrapper.appendChild(taskTitleInput);
   newTaskCard.appendChild(newTaskTitleWrapper);
   newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
+
+  if (task === undefined) {
+    //additional classes
+    newTaskCard.classList.add("task-card", "expanded", "new-card");
+    //additional id generator
+    newTaskCard.id = generateID();
+  } else {
+    newTaskCard.classList.add("task-card");
+    newTaskCard.id = `${task.id}`;
+    //set title
+    taskTitleInput.value = `${task.title}`;
+    taskTitleInput.setAttribute("readonly", "readonly");
+    //set notes
+    notesInput.value = `${task.notes}`;
+  }
 
   tasksDisplay.appendChild(newTaskCard);
 
   return newTaskCard.id;
 }
 
-function matchDOMElemAndObject(e) {
-  let objectID = e.id;
-  let testObject = flattenProjects(projectsList).find(
-    (projects) => projects.id == objectID
-  );
-  return testObject;
-}
-
 function checkTask() {
-  let foundObject = matchDOMElemAndObject(event.target.closest(".task-card"));
+  const foundObject = findProjectByID(event.target.closest(".task-card").id);
   if (event.target.checked) {
     foundObject.completed = foundObject.completed === false ? true : false;
     event.target.parentElement.classList.add("done");
+    console.log(foundObject);
   } else {
     event.target.parentElement.classList.remove("done");
     foundObject.completed = foundObject.completed === false ? true : false;
+    console.log(foundObject);
   }
 }
 
 function collapseCard() {
   document
-    .querySelector(".task-title-input.selected-card")
+    .querySelector(".expanded>div>.task-title-input")
     ?.setAttribute("readonly", "readonly");
+
+  updateObject();
   document.querySelector(".expanded")?.classList.remove("expanded");
 }
 
@@ -181,7 +202,7 @@ function switchToTodayView() {
   );
   // const yesterday = new Date(2022 - 12 - 19);
   projectsWithDates.forEach((project) => {
-    updateTasksUI(project);
+    createNewTaskCard(project);
   });
 }
 
@@ -189,13 +210,13 @@ function switchToCompletedView() {
   const completedProjects = flattenProjects(projectsList).filter(
     (projects) => projects.completed === true
   );
-  completedProjects.forEach((project) => updateTasksUI(project));
+  completedProjects.forEach((project) => createNewTaskCard(project));
 }
 
 function switchToInboxView() {
   let inbox = projectsList.find((project) => project.title === "Inbox");
   inbox.tasks.forEach((task) => {
-    updateTasksUI(task);
+    createNewTaskCard(task);
   });
 }
 
@@ -216,18 +237,19 @@ function selectProject() {
 sidebar.addEventListener("click", selectProject);
 
 //collapse card and remove new-card class when clicking out of expanded card
-window.addEventListener("click", (e) => {
-  if (
-    !e.target.closest(".task-card")?.classList.contains("expanded") &&
-    e.target.id !== "new-task-btn"
-  ) {
-    collapseCard();
-    document.querySelector(".new-card")?.classList.remove("new-card");
+window.addEventListener("click", () => {
+  if (document.querySelectorAll(".expanded").length != 0) {
+    if (
+      !event.target.closest(".task-card")?.classList.contains("expanded") &&
+      event.target.id !== "new-task-btn"
+    ) {
+      collapseCard();
+      document.querySelector(".new-card")?.classList.remove("new-card");
+    }
   }
 });
 
 export {
-  updateTasksUI,
   updateProjectsList,
   checkTask,
   expandCard,
@@ -235,5 +257,7 @@ export {
   newProjectView,
   selectProject,
   switchToTodayView,
-  createTaskCard,
+  createNewTaskCard,
+  taskCards,
+  selectCard,
 };
