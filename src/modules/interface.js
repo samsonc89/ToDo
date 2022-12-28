@@ -4,6 +4,7 @@ import {
   generateID,
   updateObject,
   findProjectByID,
+  addDueDate,
 } from "..";
 
 const tasksDisplay = document.querySelector(".tasks-display");
@@ -52,8 +53,10 @@ function createNewTaskCard(task) {
   const taskBtnWrapper = document.createElement("div");
   taskBtnWrapper.classList.add("task-btn-wrapper");
 
-  const dueDateBtn = document.createElement("button");
-  dueDateBtn.classList.add("task-btn", "due-date-btn");
+  const dueDatePicker = document.createElement("input");
+  dueDatePicker.classList.add("due-date-picker");
+
+  dueDatePicker.type = "date";
 
   const priorityBtn = document.createElement("button");
   priorityBtn.classList.add("task-btn", "priority-btn");
@@ -61,7 +64,7 @@ function createNewTaskCard(task) {
   const checklistBtn = document.createElement("button");
   checklistBtn.classList.add("task-btn", "checklist-btn");
 
-  taskBtnWrapper.appendChild(dueDateBtn);
+  taskBtnWrapper.appendChild(dueDatePicker);
   taskBtnWrapper.appendChild(checklistBtn);
   taskBtnWrapper.appendChild(priorityBtn);
 
