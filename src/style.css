@@ -49,6 +49,7 @@
 .tasks-display {
   overflow: scroll;
   margin: 10px 20px;
+  flex: 1;
 }
 
 @keyframes append-animate {
@@ -101,6 +102,9 @@ textarea {
   width: 100%;
 }
 
+textarea {
+  resize: none;
+}
 /* input {
 } */
 
@@ -115,15 +119,26 @@ textarea {
   margin-right: 5vw;
 }
 
-.date-btn {
-  background-image: url(./assets/calendar-month.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .task-btn {
   width: 5vw;
   height: 5vw;
   border: none;
+}
+.due-date-btn {
+  background-image: url(./assets/calendar-month.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.priority-btn {
+  background-image: url(./assets/exclamation-thick.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.checklist-btn {
+  background-image: url(./assets/list.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .task-details,
@@ -145,6 +160,7 @@ textarea {
 .expanded > .task-details > .task-btn-wrapper,
 .expanded > .task-details > .task-notes {
   opacity: 1;
+  height: fit-content;
   max-height: 100vh;
   transition: all 0.4s ease-in-out;
 }
