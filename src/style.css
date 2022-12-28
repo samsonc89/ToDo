@@ -72,6 +72,7 @@
   display: grid;
   padding: 5px;
   border-radius: 10px;
+  height: auto;
   /* margin-bottom: 5px; */
 }
 
@@ -107,10 +108,12 @@ textarea {
   background-color: #2d5292;
 }
 
-.task-details {
+.task-details,
+.task-btn-wrapper,
+.task-notes {
   opacity: 0;
-  height: 0;
-  transition: all 0.3s;
+  max-height: 0;
+  transition: all 0.2s ease-in-out;
 }
 
 .expanded,
@@ -120,10 +123,12 @@ textarea {
   background-color: rgb(150, 150, 150);
 }
 
-.expanded > .task-details {
+.expanded > .task-details,
+.expanded > .task-details > .task-btn-wrapper,
+.expanded > .task-details > .task-notes {
   opacity: 1;
-  height: 8vh;
-  transition: all 0.3s;
+  max-height: 100vh;
+  transition: all 0.4s ease-in-out;
 }
 
 p {
@@ -133,9 +138,8 @@ p {
 p:empty:not(:focus)::before {
   content: attr(data-placeholder);
 }
-h2:empty:not(:focus)::before {
+h3:empty:not(:focus)::before {
   content: attr(data-placeholder);
-  color: grey;
 }
 
 .done {
