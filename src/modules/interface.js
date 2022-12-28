@@ -50,6 +50,10 @@ function createNewTaskCard(task) {
   notesInput.addEventListener("focusout", () => {
     console.log("hello");
   });
+  notesInput.setAttribute(
+    "oninput",
+    'this.style.height = "";this.style.height = this.scrollHeight + "px"'
+  );
 
   const taskBtnWrapper = document.createElement("div");
   taskBtnWrapper.classList.add("task-btn-wrapper");
