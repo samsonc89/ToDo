@@ -37,9 +37,6 @@ function createNewTaskCard(task) {
   taskTitleInput.classList.add("task-title-input");
   taskTitleInput.placeholder = "New Task";
   taskTitleInput.addEventListener("dblclick", expandCard);
-  taskTitleInput.addEventListener("focusout", () => {
-    console.log("hello");
-  });
 
   const taskDetails = document.createElement("div");
   taskDetails.classList.add("task-details");
