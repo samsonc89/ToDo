@@ -130,9 +130,6 @@ switchToTodayView();
 const addProjectBtn = document.querySelector("#add-project-btn");
 const projectTitleInput = document.querySelector("#project-title");
 
-// addTaskBtn.addEventListener("click", createTask);
-// addProjectBtn.addEventListener("click", createProject);
-
 class Project {
   constructor(title) {
     this.title = title === "" ? "New Project" : title;
@@ -238,8 +235,6 @@ function addDueDate() {
   console.log(foundObject);
   event.target.classList.add("hidden");
   event.target.previousSibling.classList.remove("hidden");
-
-  // event.target.previousSibling.showPicker();
 }
 
 function changeTitle(obj) {
@@ -300,28 +295,3 @@ export {
   findProjectByID,
   addDueDate,
 };
-/*
-Projects = {
-    name: ,
-    due date:,
-    Notes: ,
-    Priority: ,
-    Status: ,
-    tasks: ,
-
-}
-Tasks = {
-    name: ,
-    due date:,
-    Notes: ,
-    Priority: ,
-    Status: ,
-    Checklist: ,
-    Project: ,
-
-}
-
-    
-
-
-*/
