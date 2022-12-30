@@ -113,6 +113,7 @@ function createNewTaskCard(task) {
 }
 
 function moveCompletedTask(startingProject, task, endingProject) {
+  task.completed = task.completed === false ? true : false;
   startingProject.forEach((project) => {
     if (project.tasks.includes(task)) {
       //add the completed object into the completed array
@@ -132,7 +133,6 @@ function checkTask() {
       projectsList
     );
     console.log(foundObject);
-    foundObject.completed = foundObject.completed === false ? true : false;
     foundObject.setCompletedDate = moment([]).format("MM-DD-YYYY");
     event.target.parentElement.classList.add("done");
 
@@ -145,13 +145,12 @@ function checkTask() {
       completedList
     );
     event.target.parentElement.classList.remove("done");
-    foundObject.completed = foundObject.completed === false ? true : false;
-    let currentProject = projectsList.find(
-      (project) =>
-        project.title ===
-        document.querySelector(".tasks-display > h2").textContent
+    // foundObject.completed = foundObject.completed === false ? true : false;
+    let currentView = document.querySelector(".tasks-display > h2").textContent;
+    let currentProjectName = projectsList.find((project) =>
+      (project.title === currentView) === "Today" ? "Inbox" : currentView
     );
-    moveCompletedTask(completedList, foundObject, currentProject.tasks);
+    moveCompletedTask(completedList, foundObject, currentProjectName.tasks);
   }
 }
 
