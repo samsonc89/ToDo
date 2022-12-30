@@ -57,7 +57,7 @@ function createNewTaskCard(task) {
   dueDateDisplay.classList.add("due-date-display");
 
   const dueDatePicker = document.createElement("input");
-  dueDatePicker.classList.add("due-date-picker", "hidden");
+  dueDatePicker.classList.add("due-date-picker", "task-btn");
   dueDatePicker.type = "date";
 
   const priorityBtn = document.createElement("button");
@@ -115,6 +115,7 @@ function checkTask() {
   const foundObject = findProjectByID(event.target.closest(".task-card").id);
   if (event.target.checked) {
     foundObject.completed = foundObject.completed === false ? true : false;
+    foundObject.completedDate = moment([]).format("MM-DD-YYYY");
     event.target.parentElement.classList.add("done");
     console.log(foundObject);
   } else {
@@ -231,7 +232,10 @@ function switchToCompletedView() {
   const completedProjects = flattenProjects(projectsList).filter(
     (projects) => projects.completed === true
   );
-  completedProjects.forEach((project) => createNewTaskCard(project));
+  completedProjects.forEach((project) => {
+    createNewTaskCard(project);
+    document.querySelector("input[type='checkbox']").remove();
+  });
 }
 
 function switchToInboxView() {
