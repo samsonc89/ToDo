@@ -6,6 +6,7 @@ import {
   findProjectByID,
   addDueDate,
 } from "..";
+import moment from "moment";
 
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
@@ -17,7 +18,6 @@ const taskTitles = document.getElementsByClassName("task-title-input");
 //task functions
 
 function createNewTaskCard(task) {
-  collapseCard();
   removeSelectedClass();
   const newTaskCard = document.createElement("div");
 
@@ -53,9 +53,18 @@ function createNewTaskCard(task) {
   const taskBtnWrapper = document.createElement("div");
   taskBtnWrapper.classList.add("task-btn-wrapper");
 
-  const dueDatePicker = document.createElement("input");
-  dueDatePicker.classList.add("due-date-picker");
+  const dueDateDisplay = document.createElement("div");
+  dueDateDisplay.classList.add("due-date-display");
 
+  const dueDateBtn = document.createElement("button");
+  dueDateBtn.classList.add("task-btn", "due-date-btn");
+  dueDateBtn.addEventListener("click", () => {
+    console.log(event.target.closest(".task-card"));
+    addDueDate();
+  });
+
+  const dueDatePicker = document.createElement("input");
+  dueDatePicker.classList.add("due-date-picker", "hidden");
   dueDatePicker.type = "date";
 
   const priorityBtn = document.createElement("button");
@@ -64,7 +73,9 @@ function createNewTaskCard(task) {
   const checklistBtn = document.createElement("button");
   checklistBtn.classList.add("task-btn", "checklist-btn");
 
+  taskBtnWrapper.appendChild(dueDateDisplay);
   taskBtnWrapper.appendChild(dueDatePicker);
+  taskBtnWrapper.appendChild(dueDateBtn);
   taskBtnWrapper.appendChild(checklistBtn);
   taskBtnWrapper.appendChild(priorityBtn);
 
@@ -76,6 +87,7 @@ function createNewTaskCard(task) {
   newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
 
   if (task === undefined) {
+    collapseCard();
     //additional classes
     newTaskCard.classList.add("task-card", "expanded", "new-card");
     //additional id generator
@@ -88,6 +100,16 @@ function createNewTaskCard(task) {
     taskTitleInput.setAttribute("readonly", "readonly");
     //set notes
     notesInput.value = `${task.notes}`;
+    console.log(task.dueDate);
+    // if (isNaN(task.dueDate)) {
+    // } else {
+    let taskDate = new Date(task.dueDate);
+    // let day = taskDate.getDate();
+    // let month = taskDate.getMonth() + 1; //Months are zero based
+    // let year = taskDate.getFullYear();
+    // let newDate = month + "/" + day + "/" + year;
+    dueDateDisplay.textContent =
+      "Due: " + moment(taskDate).format("MM/DD/YYYY");
   }
 
   tasksDisplay.appendChild(newTaskCard);
@@ -109,12 +131,23 @@ function checkTask() {
 }
 
 function collapseCard() {
-  document
-    .querySelector(".expanded>div>.task-title-input")
-    ?.setAttribute("readonly", "readonly");
+  if (!!document.querySelector(".expanded")) {
+    document
+      .querySelector(".expanded>div>.task-title-input")
+      ?.setAttribute("readonly", "readonly");
 
-  updateObject();
-  document.querySelector(".expanded")?.classList.remove("expanded");
+    updateObject();
+    //select only if shown
+    document
+      .querySelector(".expanded")
+      ?.querySelector(".due-date-picker")
+      .classList.add("hidden");
+    document
+      .querySelector(".expanded")
+      ?.querySelector(".due-date-btn")
+      .classList.remove("hidden");
+    document.querySelector(".expanded")?.classList.remove("expanded");
+  }
 }
 
 function expandCard() {

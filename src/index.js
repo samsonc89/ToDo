@@ -6,8 +6,12 @@ import {
   expandCard,
   newProjectView,
   switchToTodayView,
-  createTaskCard,
+  createNewTaskCard,
+  taskCards,
+  selectCard,
 } from "./modules/interface.js";
+import moment from "moment";
+
 // import { createTask } from "./modules/tasks.js";
 
 let project1 = {
@@ -112,15 +116,18 @@ const projectsList = [
   project3,
 ];
 
-projectsList.slice(1).forEach((task) => {
-  updateProjectsList(task);
-});
+// projectsList.slice(1).forEach((task) => {
+//   updateProjectsList(task);
+// });
 console.log(projectsList);
 switchToTodayView();
+
+// for (let task of taskCards) {
+//   task.addEventListener("click", selectCard);
+// }
+
 //element selectors
-const addTaskBtn = document.querySelector("#add-task-btn");
 const addProjectBtn = document.querySelector("#add-project-btn");
-const titleInput = document.querySelector("#title");
 const projectTitleInput = document.querySelector("#project-title");
 
 // addTaskBtn.addEventListener("click", createTask);
@@ -157,6 +164,13 @@ class Task {
   }
   set newTitle(text) {
     this.title = text;
+  }
+  set newDueDate(text) {
+    let splitDate = text.split("-");
+    let newDate = splitDate.push(splitDate.shift());
+    newDate = splitDate.join("-");
+
+    this.dueDate = newDate;
   }
 }
 
@@ -216,20 +230,52 @@ function findProjectByID(id) {
   return object;
 }
 
-function updateObject() {
-  const targetObject = findProjectByID(document.querySelector(".expanded")?.id);
+function addDueDate() {
+  const foundObject = findProjectByID(event.target.closest(".task-card").id);
+  console.log(foundObject);
+  event.target.classList.add("hidden");
+  event.target.previousSibling.classList.remove("hidden");
 
-  targetObject.newTitle = document.querySelector(
+  // event.target.previousSibling.showPicker();
+}
+
+function changeTitle(obj) {
+  obj.newTitle = document.querySelector(
     ".expanded>div>.task-title-input"
   )?.value;
-  targetObject.notes = document.querySelector(
-    ".expanded>div>.task-notes"
-  )?.value;
+}
+function changeNotes(obj) {
+  obj.notes = document.querySelector(".expanded>div>.task-notes")?.value;
+}
+
+function changeDueDate(obj) {
+  if (
+    document.querySelector(".expanded")?.querySelector(".due-date-picker")
+      .value !== ""
+  ) {
+    obj.newDueDate = document
+      .querySelector(".expanded")
+      ?.querySelector(".due-date-picker").value;
+    let targetElem = obj.id;
+    document
+      .getElementById(targetElem)
+      .querySelector(".due-date-display").textContent =
+      "Due: " + moment(obj.dueDate, "MM-DD-YYYY").format("MM/DD/YYYY");
+  }
+}
+
+function updateObject() {
+  const targetObject = findProjectByID(document.querySelector(".expanded")?.id);
+  if (document.querySelector(".expanded>div>.task-title-input")?.value != "") {
+    changeTitle(targetObject);
+  }
+  changeNotes(targetObject);
+  changeDueDate(targetObject);
   console.log(targetObject);
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
-  let newObject = createTaskCard();
+  let newObject = createNewTaskCard();
   document.querySelector(".expanded>div>.task-title-input").focus();
   console.log(newObject);
   createTask(newObject);
@@ -246,6 +292,7 @@ export {
   generateID,
   updateObject,
   findProjectByID,
+  addDueDate,
 };
 /*
 Projects = {
