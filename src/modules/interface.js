@@ -270,6 +270,7 @@ function switchToCompletedView() {
 function switchToTrashView() {
   deletedList[0].tasks.forEach((task) => {
     createNewTaskCard(task);
+    document.querySelector("input[type='checkbox']").remove();
   });
 }
 
