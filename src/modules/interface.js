@@ -73,7 +73,6 @@ function createNewTaskCard(task) {
   const checklistBtn = document.createElement("button");
   checklistBtn.classList.add("task-btn", "checklist-btn");
 
-  taskBtnWrapper.appendChild(dueDateDisplay);
   taskBtnWrapper.appendChild(dueDatePicker);
   taskBtnWrapper.appendChild(dueDateBtn);
   taskBtnWrapper.appendChild(checklistBtn);
@@ -83,6 +82,7 @@ function createNewTaskCard(task) {
   taskDetails.appendChild(taskBtnWrapper);
   newTaskTitleWrapper.appendChild(taskCheckbox);
   newTaskTitleWrapper.appendChild(taskTitleInput);
+  newTaskTitleWrapper.appendChild(dueDateDisplay);
   newTaskCard.appendChild(newTaskTitleWrapper);
   newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
 
@@ -100,14 +100,8 @@ function createNewTaskCard(task) {
     taskTitleInput.setAttribute("readonly", "readonly");
     //set notes
     notesInput.value = `${task.notes}`;
-    console.log(task.dueDate);
-    // if (isNaN(task.dueDate)) {
-    // } else {
+
     let taskDate = new Date(task.dueDate);
-    // let day = taskDate.getDate();
-    // let month = taskDate.getMonth() + 1; //Months are zero based
-    // let year = taskDate.getFullYear();
-    // let newDate = month + "/" + day + "/" + year;
     dueDateDisplay.textContent =
       "Due: " + moment(taskDate).format("MM/DD/YYYY");
   }

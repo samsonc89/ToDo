@@ -113,12 +113,23 @@ textarea {
 }
 
 .task-btn-wrapper {
-  display: flex;
+  display: none;
   gap: 15px;
-  float: right;
   margin-right: 5vw;
 }
 
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: inline;
+}
+
+.due-date-display {
+  float: right;
+  margin-right: auto;
+}
 .due-date-picker {
   border: none;
   width: fit-content;
@@ -129,6 +140,7 @@ textarea {
   height: 5vw;
   border: none;
 }
+
 .due-date-btn {
   background-image: url(./assets/calendar-month.svg);
   background-repeat: no-repeat;
@@ -147,6 +159,7 @@ textarea {
 }
 
 .task-details,
+.due-date-display,
 .task-btn-wrapper,
 .task-notes {
   opacity: 0;
@@ -160,9 +173,17 @@ textarea {
 textarea {
   background-color: rgb(150, 150, 150);
 }
+.expanded > .task-details > .task-btn-wrapper {
+  display: flex;
+  opacity: 1;
+  height: fit-content;
+  max-height: 100vh;
+  float: right;
+  transition: all 0.4s ease-in-out;
+}
 
 .expanded > .task-details,
-.expanded > .task-details > .task-btn-wrapper,
+.expanded > div > .due-date-display,
 .expanded > .task-details > .task-notes {
   opacity: 1;
   height: fit-content;
