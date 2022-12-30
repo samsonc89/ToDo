@@ -33,7 +33,7 @@ let project3 = {
   tasks: [
     {
       title: "Project 3 task 1",
-      dueDate: Date.parse("2022-12-01"),
+      dueDate: "2022-12-01",
       notes: "",
       project: "project 2",
       priority: false,
@@ -43,7 +43,7 @@ let project3 = {
 
     {
       title: "Project 3 task 2",
-      dueDate: Date.parse("2022-12-11"),
+      dueDate: "2022-12-11",
       notes: "",
       project: "project 2",
       priority: false,
@@ -62,7 +62,7 @@ let project2 = {
   tasks: [
     {
       title: "Project 2 task 1",
-      dueDate: Date.parse("2022-12-01"),
+      dueDate: "2022-12-01",
       notes: "",
       project: "project 2",
       priority: false,
@@ -72,7 +72,7 @@ let project2 = {
 
     {
       title: "Project 2 task 2",
-      dueDate: Date.parse("2022-12-11"),
+      dueDate: "2022-12-11",
       notes: "",
       project: "project 2",
       priority: false,
@@ -92,7 +92,7 @@ const projectsList = [
     tasks: [
       {
         title: "Inbox task 1",
-        dueDate: Date.parse("2022-11-11"),
+        dueDate: "2022-11-11",
         notes: "",
         project: "project 2",
         priority: false,
@@ -102,7 +102,7 @@ const projectsList = [
       },
       {
         title: "Inbox task 2",
-        dueDate: Date.parse("2022-10-11"),
+        dueDate: "2022-10-11",
         notes: "",
         project: "project 2",
         priority: false,
@@ -198,6 +198,9 @@ function createTask(id) {
   const found = projectsList.find(
     (project) => project.title === currentProjectName
   );
+  if (currentView === "Today") {
+    newTask.dueDate = moment().format("MM-DD-YYYY");
+  }
   found.tasks.push(newTask);
   console.log(found.tasks);
   console.log(projectsList);
@@ -275,10 +278,13 @@ function updateObject() {
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
-  let newObject = createNewTaskCard();
-  document.querySelector(".expanded>div>.task-title-input").focus();
-  console.log(newObject);
-  createTask(newObject);
+  const currentView = document.querySelector(".tasks-display > h2");
+  if (currentView.textContent !== "Completed") {
+    let newObject = createNewTaskCard();
+    document.querySelector(".expanded>div>.task-title-input").focus();
+    console.log(newObject);
+    createTask(newObject);
+  }
 });
 
 window.checkTask = checkTask;
