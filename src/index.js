@@ -38,6 +38,7 @@ let project3 = {
       project: "project 2",
       priority: false,
       checklist: [],
+      completed: false,
       id: 341273,
     },
 
@@ -67,6 +68,7 @@ let project2 = {
       project: "project 2",
       priority: false,
       checklist: [],
+      completed: false,
       id: 947571,
     },
 
@@ -107,6 +109,7 @@ const projectsList = [
         project: "project 2",
         priority: false,
         checklist: [],
+        completed: false,
         id: 657838,
       },
     ],
@@ -116,9 +119,9 @@ const projectsList = [
   project3,
 ];
 
-// projectsList.slice(1).forEach((task) => {
-//   updateProjectsList(task);
-// });
+projectsList.slice(1).forEach((task) => {
+  updateProjectsList(task);
+});
 console.log(projectsList);
 switchToTodayView();
 
@@ -231,16 +234,10 @@ function findProjectByID(id) {
 }
 
 //task button functions
-function addDueDate() {
-  const foundObject = findProjectByID(event.target.closest(".task-card").id);
-  console.log(foundObject);
-  event.target.classList.add("hidden");
-  event.target.previousSibling.classList.remove("hidden");
-}
 
 function addPriority() {
   let targetCard = event.target.closest(".task-card").firstChild;
-  let html = `<div class='priority-mark'>!</div>`;
+  let html = `<div class='priority-mark'>🔴</div>`;
   const foundObject = findProjectByID(event.target.closest(".task-card").id);
   foundObject.priority = foundObject.priority === false ? true : false;
   if (foundObject.priority === true) {
@@ -309,6 +306,5 @@ export {
   generateID,
   updateObject,
   findProjectByID,
-  addDueDate,
   addPriority,
 };

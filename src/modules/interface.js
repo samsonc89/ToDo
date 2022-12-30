@@ -4,7 +4,6 @@ import {
   generateID,
   updateObject,
   findProjectByID,
-  addDueDate,
   addPriority,
 } from "..";
 import moment from "moment";
@@ -57,13 +56,6 @@ function createNewTaskCard(task) {
   const dueDateDisplay = document.createElement("div");
   dueDateDisplay.classList.add("due-date-display");
 
-  const dueDateBtn = document.createElement("button");
-  dueDateBtn.classList.add("task-btn", "due-date-btn");
-  dueDateBtn.addEventListener("click", () => {
-    console.log(event.target.closest(".task-card"));
-    addDueDate();
-  });
-
   const dueDatePicker = document.createElement("input");
   dueDatePicker.classList.add("due-date-picker", "hidden");
   dueDatePicker.type = "date";
@@ -76,7 +68,6 @@ function createNewTaskCard(task) {
   checklistBtn.classList.add("task-btn", "checklist-btn");
 
   taskBtnWrapper.appendChild(dueDatePicker);
-  taskBtnWrapper.appendChild(dueDateBtn);
   taskBtnWrapper.appendChild(checklistBtn);
   taskBtnWrapper.appendChild(priorityBtn);
 
@@ -141,14 +132,7 @@ function collapseCard() {
 
     updateObject();
     //select only if shown
-    document
-      .querySelector(".expanded")
-      ?.querySelector(".due-date-picker")
-      .classList.add("hidden");
-    document
-      .querySelector(".expanded")
-      ?.querySelector(".due-date-btn")
-      .classList.remove("hidden");
+
     document.querySelector(".expanded")?.classList.remove("expanded");
   }
 }
@@ -232,10 +216,10 @@ function switchToTodayView() {
   const today = Date.now();
   //flatten our array and find projects that dueDate before today
   const projectsWithDates = flattenProjects(projectsList).filter(
-    (projects) =>
-      projects.completed === false &&
-      projects.dueDate != "" &&
-      Date.parse(projects.dueDate) < today
+    (project) =>
+      project.completed === false &&
+      project.dueDate != "" &&
+      Date.parse(project.dueDate) < today
   );
   // const yesterday = new Date(2022 - 12 - 19);
   projectsWithDates.forEach((project) => {
