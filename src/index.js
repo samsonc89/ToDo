@@ -230,6 +230,7 @@ function findProjectByID(id) {
   return object;
 }
 
+//task button functions
 function addDueDate() {
   const foundObject = findProjectByID(event.target.closest(".task-card").id);
   console.log(foundObject);
@@ -237,6 +238,20 @@ function addDueDate() {
   event.target.previousSibling.classList.remove("hidden");
 }
 
+function addPriority() {
+  let targetCard = event.target.closest(".task-card").firstChild;
+  let html = `<div class='priority-mark'>!</div>`;
+  const foundObject = findProjectByID(event.target.closest(".task-card").id);
+  foundObject.priority = foundObject.priority === false ? true : false;
+  if (foundObject.priority === true) {
+    targetCard.insertAdjacentHTML("afterbegin", html);
+  } else {
+    let priorityNode = targetCard.querySelector(".priority-mark");
+    targetCard.removeChild(priorityNode);
+  }
+}
+
+//functions to update tasks
 function changeTitle(obj) {
   obj.newTitle = document.querySelector(
     ".expanded>div>.task-title-input"
@@ -254,14 +269,15 @@ function changeDueDate(obj) {
     obj.newDueDate = document
       .querySelector(".expanded")
       ?.querySelector(".due-date-picker").value;
+
     let targetElem = obj.id;
+
     document
       .getElementById(targetElem)
       .querySelector(".due-date-display").textContent =
       "Due: " + moment(obj.dueDate, "MM-DD-YYYY").format("MM/DD/YYYY");
   }
 }
-
 function updateObject() {
   const targetObject = findProjectByID(document.querySelector(".expanded")?.id);
   if (document.querySelector(".expanded>div>.task-title-input")?.value != "") {
@@ -294,4 +310,5 @@ export {
   updateObject,
   findProjectByID,
   addDueDate,
+  addPriority,
 };
