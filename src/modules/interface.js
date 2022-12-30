@@ -1,6 +1,7 @@
 import {
   projectsList,
   completedList,
+  deletedList,
   flattenProjects,
   generateID,
   updateObject,
@@ -112,12 +113,12 @@ function createNewTaskCard(task) {
   return newTaskCard.id;
 }
 
-function moveCompletedTask(startingProject, task, endingProject) {
+function moveTask(startingProject, task, endingProject) {
   task.completed = task.completed === false ? true : false;
   startingProject.forEach((project) => {
     if (project.tasks.includes(task)) {
       //add the completed object into the completed array
-      endingProject.push(task);
+      endingProject.tasks.push(task);
 
       //remove the completed object from the original array
       let index = project.tasks.indexOf(task);
@@ -137,7 +138,7 @@ function checkTask() {
     event.target.parentElement.classList.add("done");
 
     //go through the projects list and find project that has the task of the foundObject.
-    moveCompletedTask(projectsList, foundObject, completedList[0].tasks);
+    moveTask(projectsList, foundObject, completedList[0]);
     console.log(foundObject, completedList);
   } else {
     const foundObject = findProjectByID(
@@ -146,11 +147,14 @@ function checkTask() {
     );
     event.target.parentElement.classList.remove("done");
     // foundObject.completed = foundObject.completed === false ? true : false;
-    let currentView = document.querySelector(".tasks-display > h2").textContent;
-    let currentProjectName = projectsList.find((project) =>
-      (project.title === currentView) === "Today" ? "Inbox" : currentView
+    let currentView =
+      document.querySelector(".tasks-display > h2").textContent === "Today"
+        ? "Inbox"
+        : document.querySelector(".tasks-display > h2").textContent;
+    let currentProjectName = projectsList.find(
+      (project) => project.title === currentView
     );
-    moveCompletedTask(completedList, foundObject, currentProjectName.tasks);
+    moveTask(completedList, foundObject, currentProjectName);
   }
 }
 
@@ -300,6 +304,17 @@ window.addEventListener("click", () => {
 window.addEventListener("click", () => {
   if (!event.target.closest(".task-card.selected-card")) {
     removeSelectedClass();
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  const selectedCard = document.querySelector(".task-card.selected-card");
+  const key = e.key; // const {key} = event; ES6+
+  if (key === "Backspace" && selectedCard) {
+    const foundObject = findProjectByID(selectedCard.id, projectsList);
+    moveTask(projectsList, foundObject, deletedList[0]);
+    selectedCard.remove();
+    console.log(foundObject);
   }
 });
 
