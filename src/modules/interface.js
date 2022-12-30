@@ -184,12 +184,6 @@ function selectCard() {
   if (event.target.closest(".task-card")) {
     removeSelectedClass();
     event.target.closest(".task-card").classList.add("selected-card");
-    event.target
-      .closest(".task-card")
-      .firstChild.classList.add("selected-card");
-    event.target
-      .closest(".task-card")
-      .firstChild.firstChild.nextSibling.classList.add("selected-card");
   }
 }
 
@@ -300,6 +294,12 @@ window.addEventListener("click", () => {
       collapseCard();
       document.querySelector(".new-card")?.classList.remove("new-card");
     }
+  }
+});
+
+window.addEventListener("click", () => {
+  if (!event.target.closest(".task-card.selected-card")) {
+    removeSelectedClass();
   }
 });
 
