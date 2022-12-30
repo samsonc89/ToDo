@@ -88,10 +88,6 @@ function createNewTaskCard(task) {
   newTaskCard.appendChild(newTaskTitleWrapper);
   newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
 
-  let html = `<div class='priority-mark'>!</div>`;
-  if (task.priority === true) {
-    newTaskTitleWrapper.insertAdjacentHTML("afterbegin", html);
-  }
   if (task === undefined) {
     collapseCard();
     //additional classes
@@ -107,9 +103,16 @@ function createNewTaskCard(task) {
     //set notes
     notesInput.value = `${task.notes}`;
 
-    let taskDate = new Date(task.dueDate);
-    dueDateDisplay.textContent =
-      "Due: " + moment(taskDate).format("MM/DD/YYYY");
+    if (task.dueDate !== "") {
+      let taskDate = new Date(task.dueDate);
+      dueDateDisplay.textContent =
+        "Due: " + moment(taskDate).format("MM/DD/YYYY");
+    }
+
+    let html = `<div class='priority-mark'>🔴</div>`;
+    if (task.priority === true) {
+      newTaskTitleWrapper.insertAdjacentHTML("afterbegin", html);
+    }
   }
 
   tasksDisplay.appendChild(newTaskCard);
@@ -211,7 +214,7 @@ function switchCurrentView() {
     tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable>${targetTitle}</h2>`;
     const found = projectsList.find((project) => project.title === targetTitle);
     found.tasks.forEach((task) => {
-      updateTasksUI(task);
+      createNewTaskCard(task);
     });
   } else {
     tasksDisplay.innerHTML = `<h2 class="project-title">${targetTitle}</h2>`;
@@ -229,7 +232,10 @@ function switchToTodayView() {
   const today = Date.now();
   //flatten our array and find projects that dueDate before today
   const projectsWithDates = flattenProjects(projectsList).filter(
-    (projects) => projects.dueDate != "" && Date.parse(projects.dueDate) < today
+    (projects) =>
+      projects.completed === false &&
+      projects.dueDate != "" &&
+      Date.parse(projects.dueDate) < today
   );
   // const yesterday = new Date(2022 - 12 - 19);
   projectsWithDates.forEach((project) => {
