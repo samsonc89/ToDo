@@ -5,6 +5,7 @@ import {
   updateObject,
   findProjectByID,
   addDueDate,
+  addPriority,
 } from "..";
 import moment from "moment";
 
@@ -69,6 +70,7 @@ function createNewTaskCard(task) {
 
   const priorityBtn = document.createElement("button");
   priorityBtn.classList.add("task-btn", "priority-btn");
+  priorityBtn.addEventListener("click", addPriority);
 
   const checklistBtn = document.createElement("button");
   checklistBtn.classList.add("task-btn", "checklist-btn");
@@ -86,6 +88,10 @@ function createNewTaskCard(task) {
   newTaskCard.appendChild(newTaskTitleWrapper);
   newTaskTitleWrapper.insertAdjacentElement("afterend", taskDetails);
 
+  let html = `<div class='priority-mark'>!</div>`;
+  if (task.priority === true) {
+    newTaskTitleWrapper.insertAdjacentHTML("afterbegin", html);
+  }
   if (task === undefined) {
     collapseCard();
     //additional classes
