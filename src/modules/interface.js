@@ -229,7 +229,7 @@ function switchToTodayView() {
   const today = Date.now();
   //flatten our array and find projects that dueDate before today
   const projectsWithDates = flattenProjects(projectsList).filter(
-    (projects) => projects.dueDate != "" && projects.dueDate < today
+    (projects) => projects.dueDate != "" && Date.parse(projects.dueDate) < today
   );
   // const yesterday = new Date(2022 - 12 - 19);
   projectsWithDates.forEach((project) => {
