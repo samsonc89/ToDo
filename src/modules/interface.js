@@ -234,6 +234,8 @@ function switchCurrentView() {
       switchToCompletedView();
     } else if (event.target.closest("#today-view")) {
       switchToTodayView();
+    } else if (event.target.closest("#trash-view")) {
+      switchToTrashView();
     } else {
       switchToInboxView();
     }
@@ -262,6 +264,12 @@ function switchToCompletedView() {
   completedProjects.forEach((project) => {
     createNewTaskCard(project);
     document.querySelector("input[type='checkbox']").remove();
+  });
+}
+
+function switchToTrashView() {
+  deletedList[0].tasks.forEach((task) => {
+    createNewTaskCard(task);
   });
 }
 
