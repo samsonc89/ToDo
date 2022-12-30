@@ -1,5 +1,6 @@
 import {
   projectsList,
+  completedList,
   flattenProjects,
   generateID,
   updateObject,
@@ -111,17 +112,46 @@ function createNewTaskCard(task) {
   return newTaskCard.id;
 }
 
+function moveCompletedTask(startingProject, task, endingProject) {
+  startingProject.forEach((project) => {
+    if (project.tasks.includes(task)) {
+      //add the completed object into the completed array
+      endingProject.push(task);
+
+      //remove the completed object from the original array
+      let index = project.tasks.indexOf(task);
+      project.tasks.splice(index, 1);
+    }
+  });
+}
+
 function checkTask() {
-  const foundObject = findProjectByID(event.target.closest(".task-card").id);
   if (event.target.checked) {
-    foundObject.completed = foundObject.completed === false ? true : false;
-    foundObject.completedDate = moment([]).format("MM-DD-YYYY");
-    event.target.parentElement.classList.add("done");
+    const foundObject = findProjectByID(
+      event.target.closest(".task-card").id,
+      projectsList
+    );
     console.log(foundObject);
+    foundObject.completed = foundObject.completed === false ? true : false;
+    foundObject.setCompletedDate = moment([]).format("MM-DD-YYYY");
+    event.target.parentElement.classList.add("done");
+
+    //go through the projects list and find project that has the task of the foundObject.
+    moveCompletedTask(projectsList, foundObject, completedList[0].tasks);
+    console.log(foundObject, completedList);
   } else {
+    const foundObject = findProjectByID(
+      event.target.closest(".task-card").id,
+      completedList
+    );
     event.target.parentElement.classList.remove("done");
     foundObject.completed = foundObject.completed === false ? true : false;
-    console.log(foundObject);
+    let currentProject = projectsList.find(
+      (project) =>
+        project.title ===
+        document.querySelector(".tasks-display > h2").textContent
+    );
+    moveCompletedTask(completedList, foundObject, currentProject.tasks);
   }
 }
 
@@ -229,7 +259,7 @@ function switchToTodayView() {
 }
 
 function switchToCompletedView() {
-  const completedProjects = flattenProjects(projectsList).filter(
+  const completedProjects = flattenProjects(completedList).filter(
     (projects) => projects.completed === true
   );
   completedProjects.forEach((project) => {

@@ -84,7 +84,12 @@ let project2 = {
     },
   ],
 };
-let taskList = [];
+let completedList = [
+  {
+    title: "Completed",
+    tasks: [],
+  },
+];
 const projectsList = [
   {
     title: "Inbox",
@@ -158,9 +163,14 @@ class Task {
     this.checklist = [];
     this.completed = false;
     this.id = id;
+    this.completedDate = "";
   }
   markComplete() {
     this.completed = this.completed === false ? true : false;
+  }
+
+  set setCompletedDate(date) {
+    this.completedDate = date;
   }
   set newTitle(text) {
     this.title = text;
@@ -226,10 +236,8 @@ function flattenProjects(array) {
   return flattenedArray;
 }
 
-function findProjectByID(id) {
-  let object = flattenProjects(projectsList).find(
-    (projects) => projects.id == id
-  );
+function findProjectByID(id, projects) {
+  let object = flattenProjects(projects).find((project) => project.id == id);
   return object;
 }
 
@@ -238,7 +246,10 @@ function findProjectByID(id) {
 function addPriority() {
   let targetCard = event.target.closest(".task-card").firstChild;
   let html = `<div class='priority-mark'>🔴</div>`;
-  const foundObject = findProjectByID(event.target.closest(".task-card").id);
+  const foundObject = findProjectByID(
+    event.target.closest(".task-card").id,
+    projectsList
+  );
   foundObject.priority = foundObject.priority === false ? true : false;
   if (foundObject.priority === true) {
     targetCard.insertAdjacentHTML("afterbegin", html);
@@ -276,13 +287,22 @@ function changeDueDate(obj) {
   }
 }
 function updateObject() {
-  const targetObject = findProjectByID(document.querySelector(".expanded")?.id);
-  if (document.querySelector(".expanded>div>.task-title-input")?.value != "") {
-    changeTitle(targetObject);
+  const targetObject = findProjectByID(
+    document.querySelector(".expanded")?.id,
+    projectsList
+  );
+  if (targetObject) {
+    if (
+      document.querySelector(".expanded>div>.task-title-input")?.value != ""
+    ) {
+      changeTitle(targetObject);
+    }
+
+    changeNotes(targetObject);
+
+    changeDueDate(targetObject);
+    console.log(targetObject);
   }
-  changeNotes(targetObject);
-  changeDueDate(targetObject);
-  console.log(targetObject);
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
@@ -300,8 +320,8 @@ window.expandCard = expandCard;
 window.projectsList = projectsList;
 
 export {
-  taskList,
   projectsList,
+  completedList,
   flattenProjects,
   generateID,
   updateObject,
