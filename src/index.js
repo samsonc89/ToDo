@@ -145,7 +145,7 @@ const addProjectBtn = document.querySelector("#add-project-btn");
 const projectTitleInput = document.querySelector("#project-title");
 
 class Project {
-  constructor(title) {
+  constructor(id) {
     this.title = title === "" ? "New Project" : title;
     this.dueDate = Date.parse(dueDate);
     this.notes = "";
@@ -314,9 +314,9 @@ document.querySelector("#new-task-btn").addEventListener("click", () => {
     currentView.textContent !== "Completed" &&
     currentView.textContent !== "Trash"
   ) {
+    //createNewTaskCard returns a new/existing ID
     let newObject = createNewTaskCard();
     document.querySelector(".expanded>div>.task-title-input").focus();
-    console.log(newObject);
     createTask(newObject);
   }
 });

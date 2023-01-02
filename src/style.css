@@ -34,8 +34,8 @@
   margin-top: auto;
   padding: 0 0 15px 15px;
 }
-.project-title.selected,
-.view.selected {
+.project-title.selected-project,
+.view.selected-project {
   background-color: lightblue;
 }
 

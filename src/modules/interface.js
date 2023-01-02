@@ -18,12 +18,16 @@ const taskCards = document.getElementsByClassName("task-card");
 const taskTitles = document.getElementsByClassName("task-title-input");
 
 //task functions
-
 function createNewTaskCard(task) {
   removeSelectedClass();
   const newTaskCard = document.createElement("div");
 
-  newTaskCard.addEventListener("dblclick", expandCard);
+  newTaskCard.addEventListener("mousedown", (e) => {
+    if (e.detail > 1) {
+      e.preventDefault();
+      expandCard();
+    }
+  });
   newTaskCard.addEventListener("click", selectCard);
 
   const newTaskTitleWrapper = document.createElement("div");
@@ -39,7 +43,7 @@ function createNewTaskCard(task) {
   taskTitleInput.type = "text";
   taskTitleInput.classList.add("task-title-input");
   taskTitleInput.placeholder = "New Task";
-  taskTitleInput.addEventListener("dblclick", expandCard);
+  // taskTitleInput.addEventListener("dblclick", expandCard);
 
   const taskDetails = document.createElement("div");
   taskDetails.classList.add("task-details");
@@ -173,9 +177,11 @@ function collapseCard() {
 
 function expandCard() {
   document
-    .querySelector(".task-title-input.selected-card")
+    .querySelector(".selected-card>div>.task-title-input")
     ?.removeAttribute("readonly");
+  console.log(event.target);
   event.target.closest(".task-card").classList.add("expanded");
+  document.querySelector(".expanded>div>.task-title-input").focus();
   // }
 }
 function removeSelectedClass() {
@@ -192,6 +198,8 @@ function selectCard() {
 }
 
 //project functions
+
+function createProjectCard() {}
 
 //use appendchild so it's easier to set conditional for when project title is New
 function updateProjectsList(project) {
@@ -282,13 +290,15 @@ function switchToInboxView() {
 }
 
 function clearSelectedProject() {
-  document.querySelector(".selected")?.classList.remove("selected");
+  document
+    .querySelector(".selected-project")
+    ?.classList.remove("selected-project");
 }
 
 function selectProject() {
   if (event.target.closest(".project-title") || event.target.closest(".view")) {
     clearSelectedProject();
-    event.target.classList.add("selected");
+    event.target.classList.add("selected-project");
     switchCurrentView();
   }
 }
@@ -317,13 +327,29 @@ window.addEventListener("click", () => {
 });
 
 window.addEventListener("keydown", (e) => {
+  const key = e.key;
+  if (key === "Backspace" && document.querySelector(".expanded")) {
+    return;
+  }
   const selectedCard = document.querySelector(".task-card.selected-card");
-  const key = e.key; // const {key} = event; ES6+
   if (key === "Backspace" && selectedCard) {
     const foundObject = findProjectByID(selectedCard.id, projectsList);
     moveTask(projectsList, foundObject, deletedList[0]);
     selectedCard.remove();
     console.log(foundObject);
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  const key = e.key;
+  const expandedCard = document.querySelector(".expanded");
+  if (key === "Enter" && expandedCard) {
+    collapseCard();
+  } else {
+    const selectedCard = document.querySelector(".task-card.selected-card");
+    if (key === "Enter" && selectedCard) {
+      expandCard();
+    }
   }
 });
 
