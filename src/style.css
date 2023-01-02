@@ -46,6 +46,13 @@
   gap: 5px;
 }
 
+/* PROJECTS */
+.project-card {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+/* TASKS */
 .tasks-display {
   overflow: scroll;
   margin: 10px 20px;
@@ -83,6 +90,7 @@ h2,
   outline: none;
 }
 
+/* task card details */
 .task-title-wrapper {
   display: flex;
   gap: 5px;
@@ -93,6 +101,10 @@ h2,
   margin: 5px 0;
 }
 
+.task-title-input {
+  width: fit-content;
+}
+
 input[type="text"],
 textarea {
   /* background-color: #3d353d; */
@@ -101,17 +113,7 @@ textarea {
   font-size: 1.1rem;
   line-height: 1.1rem;
   width: 100%;
-}
-
-textarea {
   resize: none;
-}
-/* input {
-} */
-
-.selected-card,
-.selected-card > * {
-  background-color: #2d5292;
 }
 
 .task-btn-wrapper {
@@ -120,25 +122,21 @@ textarea {
   margin-right: 5vw;
 }
 
-.due-date-display {
-  float: right;
-  margin-right: auto;
-}
-.due-date-picker {
-  border: none;
-  width: fit-content;
-  color: #dddddd;
-}
 .task-btn {
   width: 5vw;
   height: 5vw;
   border: none;
 }
 
-.due-date-btn {
-  background-image: url(./assets/calendar-month.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
+.task-btn:hover {
+  border: solid 1px rgb(71, 71, 71);
+  border-radius: 5px;
+}
+
+.due-date-picker {
+  border: none;
+  width: fit-content;
+  color: #dddddd;
 }
 
 .priority-btn {
@@ -152,6 +150,13 @@ textarea {
   background-size: cover;
 }
 
+/* behavior when task card is selected */
+.selected-card,
+.selected-card * {
+  background-color: #2d5292;
+}
+
+/*Behavior when task card is expanded */
 .task-details,
 .due-date-display,
 .task-btn-wrapper,
@@ -208,5 +213,8 @@ h3:empty:not(:focus)::before {
   .task-btn {
     height: 3vw;
     width: 3vw;
+  }
+  .due-date-picker {
+    width: fit-content;
   }
 }
