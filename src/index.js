@@ -90,6 +90,12 @@ let completedList = [
     tasks: [],
   },
 ];
+let deletedList = [
+  {
+    title: "Deleted",
+    tasks: [],
+  },
+];
 const projectsList = [
   {
     title: "Inbox",
@@ -198,10 +204,7 @@ function generateID() {
 
 function createTask(id) {
   let currentView = document.querySelector(".tasks-display > h2").textContent;
-  let currentProjectName =
-    currentView === "Today"
-      ? "Inbox"
-      : document.querySelector(".tasks-display > h2").textContent;
+  let currentProjectName = currentView === "Today" ? "Inbox" : currentView;
 
   const newTask = new Task(id, currentProjectName);
 
@@ -307,7 +310,10 @@ function updateObject() {
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
   const currentView = document.querySelector(".tasks-display > h2");
-  if (currentView.textContent !== "Completed") {
+  if (
+    currentView.textContent !== "Completed" &&
+    currentView.textContent !== "Trash"
+  ) {
     let newObject = createNewTaskCard();
     document.querySelector(".expanded>div>.task-title-input").focus();
     console.log(newObject);
@@ -322,6 +328,7 @@ window.projectsList = projectsList;
 export {
   projectsList,
   completedList,
+  deletedList,
   flattenProjects,
   generateID,
   updateObject,
