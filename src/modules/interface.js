@@ -199,9 +199,10 @@ function selectCard() {
 
 //project functions
 
-function createProjectCard() {
+function createProjectCard(project) {
   const projectCard = document.createElement("div");
   projectCard.classList.add("project-card");
+  projectCard.id = project.id;
 
   const projectTitle = document.createElement("h3");
   projectTitle.classList.add("project-title");
@@ -217,6 +218,7 @@ function createProjectCard() {
 function updateProjectsList(project) {
   const newProjectCard = document.createElement("div");
   newProjectCard.classList.add("project-card");
+  newProjectCard.id = project.id;
 
   const newProjectTitle = document.createElement("h3");
   newProjectTitle.classList.add("project-title");
@@ -233,7 +235,7 @@ function newProjectView(project) {
   clearSelectedProject();
   tasksDisplay.innerHTML = "";
   const html = `
-  <h2 class='project-title' contenteditable='true' data-text='New Project' id='${project.id}'></h2> 
+  <h2 class='project-title' contenteditable='true' data-text='New Project' '></h2> 
   <p class='project-notes' contenteditable='false' data-text='Notes'></p>
   `;
   projectsDisplay.lastChild.firstChild.classList.add("selected-project");
@@ -245,7 +247,7 @@ function switchCurrentView() {
   let targetTitle = event.target.textContent;
   if (event.target.closest(".project-title")) {
     const found = projectsList.find((project) => project.title === targetTitle);
-    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable id='${found.id}'>${targetTitle}</h2>
+    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable '>${targetTitle}</h2>
     <p class='project-notes' contenteditable='true' data-text='Notes'>${found.notes}</p>`;
     found.tasks.forEach((task) => {
       createNewTaskCard(task);

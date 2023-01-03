@@ -287,8 +287,8 @@ function createTask(id) {
 }
 
 function createProject() {
-  createProjectCard();
   const newProject = new Project();
+  createProjectCard(newProject);
   projectsList.push(newProject);
 
   console.log(projectsList);
