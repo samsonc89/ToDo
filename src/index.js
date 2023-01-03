@@ -206,14 +206,17 @@ window.addEventListener("click", updateProjectTitle);
 function updateProjectTitle() {
   const projectTitle = document.querySelector(
     "h3.project-title.selected-project"
-  )?.textContent;
+  );
   //find project object based on selected project
-  const found = projectsList.find((project) => project.title === projectTitle);
+  const found = projectsList.find(
+    (project) => project.title === projectTitle.textContent
+  );
   if (found !== undefined) {
     //set the object's new title to the new h2 title
     found.newTitle = document.querySelector("h2.project-title").textContent;
     //update the h3 text.content
-    // projectTitle = document.querySelector("h2.project-title").textContent;
+    projectTitle.textContent =
+      document.querySelector("h2.project-title").textContent;
   }
 }
 
