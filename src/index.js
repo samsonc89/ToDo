@@ -27,7 +27,7 @@ let project1 = {
 let project3 = {
   title: "Project 3",
   dueDate: "",
-  notes: "",
+  notes: "Hello",
   project: "",
   completed: false,
   id: 12345,
@@ -146,16 +146,45 @@ const newAreaBtn = document.querySelector("#new-area-btn");
 const projectTitleInput = document.querySelector("#project-title");
 
 function checkNewProjectName() {
-  if (document.querySelector("h2.project-title").textContent == "") {
+  const projectTitle = document.querySelector("h2.project-title");
+  if (projectTitle.textContent == "") {
     alert("Project Name Cannot be Blank");
-    document.querySelector("h2.project-title").focus();
+    projectTitle.focus();
     document.querySelector(".sidebar").style.pointerEvents = "none";
   } else {
-    updateProjectTitle();
+    if (
+      flattenProjects(projectsList).some(
+        (obj) => obj.title === projectTitle.textContent
+      )
+    ) {
+      alert(
+        "Project title already exists. Please use a different project title"
+      );
+      projectTitle.focus();
+      selectText(projectTitle);
+    } else {
+      updateNewProjectTitle();
+    }
   }
 }
 
-function updateProjectTitle() {
+function selectText(elem) {
+  if (document.body.createTextRange) {
+    const range = document.body.createTextRange();
+    range.moveToElementText(elem);
+    range.select();
+  } else if (window.getSelection) {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(elem);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  } else {
+    console.warn("Could not select text in node: Unsupported browser.");
+  }
+}
+
+function updateNewProjectTitle() {
   document.querySelector("h3.project-title.selected-project").textContent =
     projectsList.at(-1).newTitle =
       document.querySelector("h2.project-title").textContent;
@@ -191,7 +220,7 @@ class Project {
   }
 
   set newTitle(text) {
-    this.title = text;
+    this.title = text.trim();
   }
 }
 
