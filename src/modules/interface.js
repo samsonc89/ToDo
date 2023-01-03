@@ -199,7 +199,19 @@ function selectCard() {
 
 //project functions
 
-function createProjectCard() {}
+function createProjectCard() {
+  const projectCard = document.createElement("div");
+  projectCard.classList.add("project-card");
+
+  const projectTitle = document.createElement("h3");
+  projectTitle.classList.add("project-title");
+  projectTitle.setAttribute("contenteditable", false);
+  projectTitle.setAttribute("data-text", "New Project");
+
+  projectCard.appendChild(projectTitle);
+
+  projectsDisplay.appendChild(projectCard);
+}
 
 //use appendchild so it's easier to set conditional for when project title is New
 function updateProjectsList(project) {
@@ -217,13 +229,14 @@ function updateProjectsList(project) {
   projectsDisplay.appendChild(newProjectCard);
 }
 
-function newProjectView(project) {
+function newProjectView() {
   clearSelectedProject();
   tasksDisplay.innerHTML = "";
   const html = `
-  <h2 class='project-heading' contenteditable>${project.title}</h2> 
+  <h2 class='project-title' contenteditable='true' data-text='New Project'></h2> 
+  <p class='project-notes' contenteditable='false' data-text='Notes'></p>
   `;
-  projectsDisplay.lastChild.firstChild.classList.add("selected");
+  projectsDisplay.lastChild.firstChild.classList.add("selected-project");
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
@@ -231,8 +244,9 @@ function newProjectView(project) {
 function switchCurrentView() {
   let targetTitle = event.target.textContent;
   if (event.target.closest(".project-title")) {
-    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable>${targetTitle}</h2>`;
     const found = projectsList.find((project) => project.title === targetTitle);
+    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable>${targetTitle}</h2>
+    <p class='project-notes' contenteditable='true' data-text='Notes'>${found.notes}</p>`;
     found.tasks.forEach((task) => {
       createNewTaskCard(task);
     });
@@ -326,6 +340,18 @@ window.addEventListener("click", () => {
   }
 });
 
+window.addEventListener("click", (e) => {
+  if (e.target.tagName === "P") {
+    document
+      .querySelector(".project-notes")
+      .setAttribute("contenteditable", true);
+  } else {
+    document
+      .querySelector(".project-notes")
+      .setAttribute("contenteditable", false);
+  }
+});
+
 window.addEventListener("keydown", (e) => {
   const key = e.key;
   if (key === "Backspace" && document.querySelector(".expanded")) {
@@ -364,4 +390,5 @@ export {
   createNewTaskCard,
   taskCards,
   selectCard,
+  createProjectCard,
 };
