@@ -205,6 +205,8 @@ newAreaBtn.addEventListener("click", () => {
   );
 });
 
+function updateProjectTitle() {}
+
 class Project {
   constructor() {
     this.title = "";
@@ -290,7 +292,7 @@ function createProject() {
   projectsList.push(newProject);
 
   console.log(projectsList);
-  newProjectView();
+  newProjectView(newProject);
 }
 
 function flattenProjects(array) {

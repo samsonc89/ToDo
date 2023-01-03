@@ -229,11 +229,11 @@ function updateProjectsList(project) {
   projectsDisplay.appendChild(newProjectCard);
 }
 
-function newProjectView() {
+function newProjectView(project) {
   clearSelectedProject();
   tasksDisplay.innerHTML = "";
   const html = `
-  <h2 class='project-title' contenteditable='true' data-text='New Project'></h2> 
+  <h2 class='project-title' contenteditable='true' data-text='New Project' id='${project.id}'></h2> 
   <p class='project-notes' contenteditable='false' data-text='Notes'></p>
   `;
   projectsDisplay.lastChild.firstChild.classList.add("selected-project");
@@ -245,7 +245,7 @@ function switchCurrentView() {
   let targetTitle = event.target.textContent;
   if (event.target.closest(".project-title")) {
     const found = projectsList.find((project) => project.title === targetTitle);
-    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable>${targetTitle}</h2>
+    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable id='${found.id}'>${targetTitle}</h2>
     <p class='project-notes' contenteditable='true' data-text='Notes'>${found.notes}</p>`;
     found.tasks.forEach((task) => {
       createNewTaskCard(task);
@@ -348,7 +348,7 @@ window.addEventListener("click", (e) => {
   } else {
     document
       .querySelector(".project-notes")
-      .setAttribute("contenteditable", false);
+      ?.setAttribute("contenteditable", false);
   }
 });
 
