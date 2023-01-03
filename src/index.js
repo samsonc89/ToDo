@@ -153,8 +153,8 @@ function checkNewProjectName() {
     document.querySelector(".sidebar").style.pointerEvents = "none";
   } else {
     if (
-      flattenProjects(projectsList).some(
-        (obj) => obj.title === projectTitle.textContent
+      projectsList.find(
+        (project) => project.title.match === projectTitle.textContent
       )
     ) {
       alert(
@@ -196,16 +196,26 @@ newAreaBtn.addEventListener("click", () => {
   createProject();
   document.querySelector("h2.project-title").focus();
 
-  setTimeout(
-    function () {
-      window.addEventListener("click", checkNewProjectName);
-    },
-
-    10
-  );
+  setTimeout(function () {
+    window.addEventListener("click", checkNewProjectName);
+  }, 10);
 });
 
-function updateProjectTitle() {}
+window.addEventListener("click", updateProjectTitle);
+
+function updateProjectTitle() {
+  const projectTitle = document.querySelector(
+    "h3.project-title.selected-project"
+  )?.textContent;
+  //find project object based on selected project
+  const found = projectsList.find((project) => project.title === projectTitle);
+  if (found !== undefined) {
+    //set the object's new title to the new h2 title
+    found.newTitle = document.querySelector("h2.project-title").textContent;
+    //update the h3 text.content
+    // projectTitle = document.querySelector("h2.project-title").textContent;
+  }
+}
 
 class Project {
   constructor() {
