@@ -9,6 +9,7 @@ import {
   createNewTaskCard,
   taskCards,
   selectCard,
+  createProjectCard,
 } from "./modules/interface.js";
 import moment from "moment";
 
@@ -141,13 +142,44 @@ switchToTodayView();
 // }
 
 //element selectors
-const addProjectBtn = document.querySelector("#add-project-btn");
+const newAreaBtn = document.querySelector("#new-area-btn");
 const projectTitleInput = document.querySelector("#project-title");
 
+function checkNewProjectName() {
+  if (document.querySelector("h2.project-title").textContent == "") {
+    alert("Project Name Cannot be Blank");
+    document.querySelector("h2.project-title").focus();
+    document.querySelector(".sidebar").style.pointerEvents = "none";
+  } else {
+    updateProjectTitle();
+  }
+}
+
+function updateProjectTitle() {
+  document.querySelector("h3.project-title.selected-project").textContent =
+    projectsList.at(-1).newTitle =
+      document.querySelector("h2.project-title").textContent;
+  document.querySelector(".sidebar").style.pointerEvents = "all";
+  window.removeEventListener("click", checkNewProjectName);
+}
+
+newAreaBtn.addEventListener("click", () => {
+  createProject();
+  document.querySelector("h2.project-title").focus();
+
+  setTimeout(
+    function () {
+      window.addEventListener("click", checkNewProjectName);
+    },
+
+    10
+  );
+});
+
 class Project {
-  constructor(id) {
-    this.title = title === "" ? "New Project" : title;
-    this.dueDate = Date.parse(dueDate);
+  constructor() {
+    this.title = "";
+    this.dueDate = "";
     this.notes = "";
     this.tasks = [];
     this.completed = false;
@@ -156,6 +188,10 @@ class Project {
   markComplete() {
     checkTask(this);
     this.completed = this.completed === false ? true : false;
+  }
+
+  set newTitle(text) {
+    this.title = text;
   }
 }
 
@@ -220,12 +256,12 @@ function createTask(id) {
 }
 
 function createProject() {
-  const newProject = new Project(projectTitleInput.value);
+  createProjectCard();
+  const newProject = new Project();
   projectsList.push(newProject);
-  clearFields();
-  console.log(taskList, projectsList);
-  updateProjectsList(projectsList.at(-1));
-  newProjectView(newProject);
+
+  console.log(projectsList);
+  newProjectView();
 }
 
 function flattenProjects(array) {
@@ -263,7 +299,7 @@ function addPriority() {
 }
 
 //functions to update tasks
-function changeTitle(obj) {
+function changeTaskTitle(obj) {
   obj.newTitle = document.querySelector(
     ".expanded>div>.task-title-input"
   )?.value;
@@ -298,7 +334,7 @@ function updateObject() {
     if (
       document.querySelector(".expanded>div>.task-title-input")?.value != ""
     ) {
-      changeTitle(targetObject);
+      changeTaskTitle(targetObject);
     }
 
     changeNotes(targetObject);
