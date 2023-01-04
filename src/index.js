@@ -201,22 +201,27 @@ newAreaBtn.addEventListener("click", () => {
   }, 10);
 });
 
-window.addEventListener("click", updateProjectTitle);
+window.addEventListener("click", updateProject);
 
-function updateProjectTitle() {
+function updateProject() {
   const projectTitle = document.querySelector(
     "h3.project-title.selected-project"
   );
-  //find project object based on selected project
-  const found = projectsList.find(
-    (project) => project.title === projectTitle.textContent
-  );
-  if (found !== undefined) {
-    //set the object's new title to the new h2 title
-    found.newTitle = document.querySelector("h2.project-title").textContent;
-    //update the h3 text.content
-    projectTitle.textContent =
-      document.querySelector("h2.project-title").textContent;
+
+  if (projectTitle) {
+    //find project object based on selected project
+    const found = projectsList.find(
+      (project) => project.title === projectTitle.textContent
+    );
+    if (found !== undefined) {
+      //set the object's new title to the new h2 title
+      found.newTitle = document.querySelector("h2.project-title").textContent;
+      //update the h3 text.content
+      projectTitle.textContent =
+        document.querySelector("h2.project-title").textContent;
+
+      found.newNote = document.querySelector("p.project-notes").textContent;
+    }
   }
 }
 
@@ -236,6 +241,9 @@ class Project {
 
   set newTitle(text) {
     this.title = text.trim();
+  }
+  set newNote(text) {
+    this.notes = text.trim();
   }
 }
 
