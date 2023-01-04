@@ -17,7 +17,8 @@ const sidebar = document.querySelector(".sidebar");
 const taskCards = document.getElementsByClassName("task-card");
 const taskTitles = document.getElementsByClassName("task-title-input");
 
-//task functions
+//////////////////////////
+//TASK FUNCTIONS
 function createNewTaskCard(task) {
   removeSelectedClass();
   const newTaskCard = document.createElement("div");
@@ -152,9 +153,9 @@ function checkTask() {
     event.target.parentElement.classList.remove("done");
     // foundObject.completed = foundObject.completed === false ? true : false;
     let currentView =
-      document.querySelector(".tasks-display > h2").textContent === "Today"
+      document.querySelector(".tasks-display >div> h2").textContent === "Today"
         ? "Inbox"
-        : document.querySelector(".tasks-display > h2").textContent;
+        : document.querySelector(".tasks-display >div> h2").textContent;
     let currentProjectName = projectsList.find(
       (project) => project.title === currentView
     );
@@ -197,8 +198,8 @@ function selectCard() {
   }
 }
 
-//project functions
-
+//////////////////////////
+//PROJECT FUNCTIONS
 function createProjectCard(project) {
   const projectCard = document.createElement("div");
   projectCard.classList.add("project-card");
@@ -237,7 +238,7 @@ function newProjectView(project) {
   const html = `
   <div class="project-title-container">
   <div class="round">
-    <input type="checkbox" id="checkbox" />
+    <input type="checkbox" id="checkbox" onchange='checkProject()' />
     <label for="checkbox"></label>
   </div>
   <h2 class='project-title' contenteditable='true' data-text='New Project' '></h2> 
@@ -248,6 +249,44 @@ function newProjectView(project) {
   tasksDisplay.insertAdjacentHTML("beforeend", html);
 }
 
+function moveProject(startingProjectList, project, endingProjectList) {
+  project.completed = project.completed === false ? true : false;
+  //go through projects list and find project with matching title
+  const foundProject = startingProjectList.find((projects) => {
+    projects.title === project.title;
+  });
+  endingProjectList.push(project);
+
+  let index = startingProjectList.indexOf(foundProject);
+  startingProjectList.splice(index, 1);
+}
+
+function deleteProjectCard() {
+  document.querySelector("h3.selected-project").parentElement.remove();
+}
+
+let timeoutId;
+
+function checkProject() {
+  if (event.target.checked) {
+    const foundObject = findProjectByID(
+      document.querySelector("h3.selected-project").parentElement.id,
+      projectsList
+    );
+    moveProject(projectsList, foundObject, completedList);
+    timeoutId = setTimeout(deleteProjectCard, 2000);
+  } else {
+    const foundObject = findProjectByID(
+      document.querySelector("h3.selected-project").parentElement.id,
+      completedList
+    );
+    moveProject(completedList, foundObject, projectsList);
+    console.log(timeoutId);
+    clearTimeout(timeoutId);
+    timeoutId = null;
+  }
+}
+
 //switch views
 function switchCurrentView() {
   let targetTitle = event.target.textContent;
@@ -256,7 +295,7 @@ function switchCurrentView() {
     tasksDisplay.innerHTML = `
     <div class="project-title-container">
     <div class="round">
-      <input type="checkbox" id="checkbox" />
+      <input type="checkbox" id="checkbox" onchange='checkProject()' />
       <label for="checkbox"></label>
     </div>
     <h2 class="project-title" contenteditable '>${targetTitle}</h2>
@@ -411,4 +450,5 @@ export {
   taskCards,
   selectCard,
   createProjectCard,
+  checkProject,
 };
