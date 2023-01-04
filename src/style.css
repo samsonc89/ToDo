@@ -275,4 +275,9 @@ h3:empty:not(:focus)::before {
   .due-date-picker {
     width: fit-content;
   }
+
+  .round label {
+    height: 2.3vw;
+    width: 2.3vw;
+  }
 }
