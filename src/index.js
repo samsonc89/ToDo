@@ -10,6 +10,7 @@ import {
   taskCards,
   selectCard,
   createProjectCard,
+  checkProject,
 } from "./modules/interface.js";
 import moment from "moment";
 
@@ -234,10 +235,6 @@ class Project {
     this.completed = false;
     this.id = generateID();
   }
-  markComplete() {
-    checkTask(this);
-    this.completed = this.completed === false ? true : false;
-  }
 
   set newTitle(text) {
     this.title = text.trim();
@@ -258,9 +255,6 @@ class Task {
     this.completed = false;
     this.id = id;
     this.completedDate = "";
-  }
-  markComplete() {
-    this.completed = this.completed === false ? true : false;
   }
 
   set setCompletedDate(date) {
@@ -291,7 +285,9 @@ function generateID() {
 }
 
 function createTask(id) {
-  let currentView = document.querySelector(".tasks-display > h2").textContent;
+  let currentView = document.querySelector(
+    ".tasks-display >div> h2"
+  ).textContent;
   let currentProjectName = currentView === "Today" ? "Inbox" : currentView;
 
   const newTask = new Task(id, currentProjectName);
@@ -397,7 +393,7 @@ function updateObject() {
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
-  const currentView = document.querySelector(".tasks-display > h2");
+  const currentView = document.querySelector(".tasks-display >div> h2");
   if (
     currentView.textContent !== "Completed" &&
     currentView.textContent !== "Trash"
@@ -412,6 +408,7 @@ document.querySelector("#new-task-btn").addEventListener("click", () => {
 window.checkTask = checkTask;
 window.expandCard = expandCard;
 window.projectsList = projectsList;
+window.checkProject = checkProject;
 
 export {
   projectsList,
