@@ -235,7 +235,13 @@ function newProjectView(project) {
   clearSelectedProject();
   tasksDisplay.innerHTML = "";
   const html = `
+  <div class="project-title-container">
+  <div class="round">
+    <input type="checkbox" id="checkbox" />
+    <label for="checkbox"></label>
+  </div>
   <h2 class='project-title' contenteditable='true' data-text='New Project' '></h2> 
+  </div>
   <p class='project-notes' contenteditable='false' data-text='Notes'></p>
   `;
   projectsDisplay.lastChild.firstChild.classList.add("selected-project");
@@ -247,13 +253,25 @@ function switchCurrentView() {
   let targetTitle = event.target.textContent;
   if (event.target.closest(".project-title")) {
     const found = projectsList.find((project) => project.title === targetTitle);
-    tasksDisplay.innerHTML = `<h2 class="project-title" contenteditable '>${targetTitle}</h2>
-    <p class='project-notes' contenteditable='true' data-text='Notes'>${found.notes}</p>`;
+    tasksDisplay.innerHTML = `
+    <div class="project-title-container">
+    <div class="round">
+      <input type="checkbox" id="checkbox" />
+      <label for="checkbox"></label>
+    </div>
+    <h2 class="project-title" contenteditable '>${targetTitle}</h2>
+    </div>
+    <p class='project-notes' contenteditable='true' data-text='Notes'>${
+      found.notes == undefined ? "" : found.notes
+    }</p>`;
     found.tasks.forEach((task) => {
       createNewTaskCard(task);
     });
   } else {
-    tasksDisplay.innerHTML = `<h2 class="project-title">${targetTitle}</h2>`;
+    tasksDisplay.innerHTML = `
+    <div class="project-title-container">
+    <h2 class="project-title">${targetTitle}</h2>
+    </div>`;
     if (event.target.closest("#completed-view")) {
       switchToCompletedView();
     } else if (event.target.closest("#today-view")) {
