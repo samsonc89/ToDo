@@ -51,7 +51,13 @@
 /* PROJECTS */
 .project-card {
   margin-bottom: 10px;
+}
+.project-card > .project-title {
+  border-radius: 5px;
   padding: 5px;
+}
+.project-card > .selected-project {
+  background-color: #666666;
 }
 
 [contentEditable]:empty:not(:focus):before {
@@ -209,6 +215,7 @@ textarea {
 }
 
 /* behavior when task card is selected */
+
 .selected-card,
 .selected-card * {
   background-color: #2d5292;
