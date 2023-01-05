@@ -285,11 +285,11 @@ function generateID() {
 }
 
 function createTask(id) {
-  let currentView = document.querySelector(
-    ".tasks-display >div> h2"
+  const currentView = document.querySelector(
+    "h2.project-title.project-title"
   ).textContent;
   let currentProjectName = currentView === "Today" ? "Inbox" : currentView;
-
+  console.log(currentView, currentProjectName);
   const newTask = new Task(id, currentProjectName);
 
   const found = projectsList.find(
@@ -298,6 +298,7 @@ function createTask(id) {
   if (currentView === "Today") {
     newTask.dueDate = moment().format("MM-DD-YYYY");
   }
+  console.log(found);
   found.tasks.push(newTask);
   console.log(found.tasks);
   console.log(projectsList);
@@ -393,7 +394,7 @@ function updateObject() {
 }
 //event listeners
 document.querySelector("#new-task-btn").addEventListener("click", () => {
-  const currentView = document.querySelector(".tasks-display >div> h2");
+  const currentView = document.querySelector("h2.project-title");
   if (
     currentView.textContent !== "Completed" &&
     currentView.textContent !== "Trash"
