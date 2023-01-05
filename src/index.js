@@ -277,9 +277,7 @@ function generateID() {
   let randomID = Math.floor(1000000 + Math.random() * 9000000);
   //search myLibrary for object that has property value with same id
   while (flattenProjects(projectsList).some((obj) => obj.id === randomID)) {
-    console.log(randomID);
     randomID = Math.floor(1000000 + Math.random() * 9000000);
-    console.log("repeated");
   }
   return randomID;
 }
@@ -289,7 +287,7 @@ function createTask(id) {
     "h2.project-title.project-title"
   ).textContent;
   let currentProjectName = currentView === "Today" ? "Inbox" : currentView;
-  console.log(currentView, currentProjectName);
+
   const newTask = new Task(id, currentProjectName);
 
   const found = projectsList.find(
@@ -298,18 +296,14 @@ function createTask(id) {
   if (currentView === "Today") {
     newTask.dueDate = moment().format("MM-DD-YYYY");
   }
-  console.log(found);
+
   found.tasks.push(newTask);
-  console.log(found.tasks);
-  console.log(projectsList);
 }
 
 function createProject() {
   const newProject = new Project();
   createProjectCard(newProject);
   projectsList.push(newProject);
-
-  console.log(projectsList);
   newProjectView(newProject);
 }
 
@@ -389,7 +383,6 @@ function updateObject() {
     changeNotes(targetObject);
 
     changeDueDate(targetObject);
-    console.log(targetObject);
   }
 }
 //event listeners
