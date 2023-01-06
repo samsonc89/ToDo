@@ -151,16 +151,11 @@ function checkNewProjectName() {
   if (projectTitle.textContent == "") {
     alert("Project Name Cannot be Blank");
     projectTitle.focus();
-    document.querySelector(".sidebar").style.pointerEvents = "none";
   } else {
     if (
-      projectsList.find(
-        (project) => project.title.match === projectTitle.textContent
-      )
+      projectsList.find((project) => project.title === projectTitle.textContent)
     ) {
-      alert(
-        "Project title already exists. Please use a different project title"
-      );
+      alertDuplicate();
       projectTitle.focus();
       selectText(projectTitle);
     } else {
@@ -191,9 +186,13 @@ function updateNewProjectTitle() {
       document.querySelector("h2.project-title").textContent;
   document.querySelector(".sidebar").style.pointerEvents = "all";
   window.removeEventListener("click", checkNewProjectName);
+  document.querySelector("h2.project-title").addEventListener("blur", () => {
+    updateProject();
+  });
 }
 
 newAreaBtn.addEventListener("click", () => {
+  document.querySelector(".sidebar").style.pointerEvents = "none";
   createProject();
   document.querySelector("h2.project-title").focus();
 
@@ -202,26 +201,50 @@ newAreaBtn.addEventListener("click", () => {
   }, 10);
 });
 
-window.addEventListener("click", updateProject);
+// document
+//   .querySelector("h2.project-title")
+//   .addEventListener("focusout", updateProject);
+
+function alertDuplicate() {
+  alert(
+    "Oops. Project title already exists. Please use a different project title"
+  );
+}
 
 function updateProject() {
-  const projectTitle = document.querySelector(
-    "h3.project-title.selected-project"
-  );
+  const projectCardTitle = document.querySelector("h3.selected-project");
 
-  if (projectTitle) {
+  if (projectCardTitle.textContent !== "") {
     //find project object based on selected project
     const found = projectsList.find(
-      (project) => project.title === projectTitle.textContent
+      (project) => project.title === projectCardTitle.textContent
     );
-    if (found !== undefined) {
-      //set the object's new title to the new h2 title
-      found.newTitle = document.querySelector("h2.project-title").textContent;
-      //update the h3 text.content
-      projectTitle.textContent =
-        document.querySelector("h2.project-title").textContent;
 
-      found.newNote = document.querySelector("p.project-notes").textContent;
+    // if (found !== undefined) {
+    const projectTitle = document.querySelector("h2.project-title");
+    if (projectTitle.textContent == "") {
+      alert("Project Name Cannot be Blank");
+      projectTitle.focus();
+      document.querySelector(".sidebar").style.pointerEvents = "none";
+    } else {
+      if (
+        projectsList.find(
+          (project) => project.title === projectTitle.textContent
+        )
+      ) {
+        alertDuplicate();
+        selectText(projectTitle);
+        projectTitle.focus();
+      } else {
+        //set the object's new title to the new h2 title
+        found.newTitle = document.querySelector("h2.project-title").textContent;
+        //update the h3 text.content
+        projectCardTitle.textContent =
+          document.querySelector("h2.project-title").textContent;
+
+        found.newNote = document.querySelector("p.project-notes").textContent;
+        document.querySelector(".sidebar").style.pointerEvents = "all";
+      }
     }
   }
 }
