@@ -6,6 +6,21 @@
   background-color: #3d353d;
 }
 
+#profile-icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: white;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+}
+img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
 .main-wrapper {
   display: grid;
   grid-template-rows: 1fr 20fr;

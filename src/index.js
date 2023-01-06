@@ -1,23 +1,21 @@
 import "./style.css";
 import {
-  updateTasksUI,
   updateProjectsList,
   checkTask,
   expandCard,
   newProjectView,
   switchToTodayView,
   createNewTaskCard,
-  taskCards,
-  selectCard,
   createProjectCard,
   checkProject,
 } from "./modules/interface.js";
 import moment from "moment";
+import profileLogo from "./assets/profile-logo.jpg";
 
-// import { createTask } from "./modules/tasks.js";
+document.querySelector("#profile-icon>a>img").src = profileLogo;
 
 let project1 = {
-  title: "Test1",
+  title: "Test Project 1",
   dueDate: "",
   notes: "",
   project: "",
@@ -138,13 +136,8 @@ projectsList.slice(1).forEach((task) => {
 console.log(projectsList);
 switchToTodayView();
 
-// for (let task of taskCards) {
-//   task.addEventListener("click", selectCard);
-// }
-
 //element selectors
 const newAreaBtn = document.querySelector("#new-area-btn");
-const projectTitleInput = document.querySelector("#project-title");
 
 function checkNewProjectName() {
   const projectTitle = document.querySelector("h2.project-title");
