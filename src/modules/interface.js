@@ -296,9 +296,6 @@ function deleteProject() {
     deleteProjectCard();
   }
 }
-document
-  .querySelector("#del-proj-btn")
-  .addEventListener("click", deleteProject);
 
 //switch views
 function switchCurrentView() {
@@ -366,11 +363,6 @@ function switchToCompletedView() {
 }
 
 function switchToTrashView() {
-  // deletedList[0].tasks.forEach((task) => {
-  //   createNewTaskCard(task);
-  //   document.querySelector("input[type='checkbox']").remove();
-  // });
-
   deletedList.forEach((project) => {
     project.tasks.forEach((task) => {
       createNewTaskCard(task);
@@ -403,6 +395,10 @@ function selectProject() {
 //event listeners
 
 sidebar.addEventListener("click", selectProject);
+
+document
+  .querySelector("#del-proj-btn")
+  .addEventListener("click", deleteProject);
 
 //collapse card and remove new-card class when clicking out of expanded card
 window.addEventListener("click", () => {
