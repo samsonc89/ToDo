@@ -45,9 +45,11 @@
   height: 25px;
 }
 
+.project-card > .selected-project,
 .project-title.selected-project,
 .view.selected-project {
-  background-color: lightblue;
+  background-color: #666666;
+  border-radius: 5px;
 }
 
 .tasks-display,
@@ -58,16 +60,19 @@
 }
 
 /* PROJECTS */
+.view {
+  padding: 2px;
+}
+
 .project-card {
   margin-bottom: 10px;
 }
 .project-card > .project-title {
-  border-radius: 5px;
   padding: 5px;
 }
-.project-card > .selected-project {
+/* .project-card > .selected-project {
   background-color: #666666;
-}
+} */
 
 [contentEditable]:empty:not(:focus):before {
   content: attr(data-text);
@@ -81,6 +86,12 @@
 
 h2.project-title {
   display: inline;
+  caret: black bar;
+}
+
+h2.project-title:focus {
+  caret-color: white;
+  caret-shape: block;
 }
 .round {
   position: relative;
