@@ -180,7 +180,6 @@ function expandCard() {
   document
     .querySelector(".selected-card>div>.task-title-input")
     ?.removeAttribute("readonly");
-  console.log(event.target);
   event.target.closest(".task-card").classList.add("expanded");
   document.querySelector(".expanded>div>.task-title-input").focus();
   // }
@@ -224,9 +223,6 @@ function updateProjectsList(project) {
   const newProjectTitle = document.createElement("h3");
   newProjectTitle.classList.add("project-title");
   newProjectTitle.textContent = `${project.title}`;
-  if (project.title === "New Project") {
-    newProjectTitle.classList.add("selected");
-  }
 
   newProjectCard.appendChild(newProjectTitle);
   projectsDisplay.appendChild(newProjectCard);
@@ -263,6 +259,8 @@ function moveProject(startingProjectList, project, endingProjectList) {
 
 function deleteProjectCard() {
   document.querySelector("h3.selected-project").parentElement.remove();
+  switchToTodayView();
+  document.getElementById("today-view").classList.add("selected-project");
 }
 
 let timeoutId;
@@ -286,6 +284,21 @@ function checkProject() {
     timeoutId = null;
   }
 }
+
+function deleteProject() {
+  const selectedProject = document.querySelector("h3.selected-project");
+  if (selectedProject) {
+    const foundObject = findProjectByID(
+      selectedProject.parentElement.id,
+      projectsList
+    );
+    moveProject(projectsList, foundObject, deletedList);
+    deleteProjectCard();
+  }
+}
+document
+  .querySelector("#del-proj-btn")
+  .addEventListener("click", deleteProject);
 
 //switch views
 function switchCurrentView() {
@@ -324,6 +337,10 @@ function switchCurrentView() {
 }
 
 function switchToTodayView() {
+  tasksDisplay.innerHTML = `
+  <div class="project-title-container">
+  <h2 class="project-title">Today</h2>
+  </div>`;
   const today = Date.now();
   //flatten our array and find projects that dueDate before today
   const projectsWithDates = flattenProjects(projectsList).filter(
@@ -349,9 +366,16 @@ function switchToCompletedView() {
 }
 
 function switchToTrashView() {
-  deletedList[0].tasks.forEach((task) => {
-    createNewTaskCard(task);
-    document.querySelector("input[type='checkbox']").remove();
+  // deletedList[0].tasks.forEach((task) => {
+  //   createNewTaskCard(task);
+  //   document.querySelector("input[type='checkbox']").remove();
+  // });
+
+  deletedList.forEach((project) => {
+    project.tasks.forEach((task) => {
+      createNewTaskCard(task);
+      document.querySelector("input[type='checkbox']").remove();
+    });
   });
 }
 
