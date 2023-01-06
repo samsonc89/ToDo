@@ -12,10 +12,8 @@ import moment from "moment";
 
 const tasksDisplay = document.querySelector(".tasks-display");
 const projectsDisplay = document.querySelector(".projects-display");
-const projectTitle = document.querySelector(".project-title");
+
 const sidebar = document.querySelector(".sidebar");
-const taskCards = document.getElementsByClassName("task-card");
-const taskTitles = document.getElementsByClassName("task-title-input");
 
 //////////////////////////
 //TASK FUNCTIONS
@@ -462,13 +460,9 @@ export {
   updateProjectsList,
   checkTask,
   expandCard,
-  tasksDisplay,
   newProjectView,
-  selectProject,
   switchToTodayView,
   createNewTaskCard,
-  taskCards,
-  selectCard,
   createProjectCard,
   checkProject,
 };
