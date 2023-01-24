@@ -456,6 +456,11 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+document.querySelector("#profile-icon").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.querySelector(".dropdown-content").classList.toggle("show");
+});
+
 export {
   updateProjectsList,
   checkTask,
