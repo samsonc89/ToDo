@@ -55,7 +55,7 @@ let project3 = {
   ],
 };
 let project2 = {
-  title: "Testing 2",
+  title: "Test Project 2",
   dueDate: "",
   notes: "",
   project: "",
