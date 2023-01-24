@@ -9,18 +9,23 @@
   <body>
     <div class="main-wrapper">
       <div class="navbar">
-        <div id="profile-icon">
-          <a href=""><img src="" /> </a>
-        </div>
-        <div class="dropdown-content">
-          <button><strong>Settings</strong></button>
-          <button>Logout</button>
-          <button>Help</button>
+        <button id="menu-btn"></button>
+        <div class="dropdown">
+          <div id="profile-icon">
+            <a href=""><img src="" /> </a>
+          </div>
+          <div class="dropdown-content">
+            <button><strong>Settings</strong></button>
+            <button>Logout</button>
+            <button>Help</button>
+          </div>
         </div>
       </div>
       <div class="sidebar">
         <div class="views-wrapper">
-          <div class="view" id="inbox-view">Inbox</div>
+          <div class="view" id="inbox-view">
+            Inbox<button id="close-menu-btn"></button>
+          </div>
           <div class="view selected-project" id="today-view">Today</div>
           <div class="view" id="completed-view">Completed</div>
           <div class="view" id="trash-view">Trash</div>

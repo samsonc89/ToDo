@@ -460,6 +460,14 @@ document.querySelector("#profile-icon").addEventListener("click", (e) => {
   e.preventDefault();
   document.querySelector(".dropdown-content").classList.toggle("show");
 });
+document.querySelector("#close-menu-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.querySelector(".sidebar").style.display = "none";
+});
+document.querySelector("#menu-btn").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.querySelector(".sidebar").style.display = "flex";
+});
 
 export {
   updateProjectsList,
