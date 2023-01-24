@@ -297,10 +297,13 @@ function deleteProject() {
 
 //switch views
 function switchCurrentView() {
-  let targetTitle = event.target.textContent;
-  if (event.target.closest(".project-title")) {
-    const found = projectsList.find((project) => project.title === targetTitle);
-    tasksDisplay.innerHTML = `
+  if (event.target.id != "close-menu-btn") {
+    let targetTitle = event.target.textContent;
+    if (event.target.closest(".project-title")) {
+      const found = projectsList.find(
+        (project) => project.title === targetTitle
+      );
+      tasksDisplay.innerHTML = `
     <div class="project-title-container">
     <div class="round">
       <input type="checkbox" id="checkbox" onchange='checkProject()' />
@@ -311,22 +314,23 @@ function switchCurrentView() {
     <p class='project-notes' contenteditable='true' data-text='Notes'>${
       found.notes == undefined ? "" : found.notes
     }</p>`;
-    found.tasks.forEach((task) => {
-      createNewTaskCard(task);
-    });
-  } else {
-    tasksDisplay.innerHTML = `
+      found.tasks.forEach((task) => {
+        createNewTaskCard(task);
+      });
+    } else {
+      tasksDisplay.innerHTML = `
     <div class="project-title-container">
     <h2 class="project-title">${targetTitle}</h2>
     </div>`;
-    if (event.target.closest("#completed-view")) {
-      switchToCompletedView();
-    } else if (event.target.closest("#today-view")) {
-      switchToTodayView();
-    } else if (event.target.closest("#trash-view")) {
-      switchToTrashView();
-    } else {
-      switchToInboxView();
+      if (event.target.closest("#completed-view")) {
+        switchToCompletedView();
+      } else if (event.target.closest("#today-view")) {
+        switchToTodayView();
+      } else if (event.target.closest("#trash-view")) {
+        switchToTrashView();
+      } else {
+        switchToInboxView();
+      }
     }
   }
 }
@@ -460,13 +464,11 @@ document.querySelector("#profile-icon").addEventListener("click", (e) => {
   e.preventDefault();
   document.querySelector(".dropdown-content").classList.toggle("show");
 });
-document.querySelector("#close-menu-btn").addEventListener("click", (e) => {
-  e.preventDefault();
-  document.querySelector(".sidebar").style.display = "none";
+document.querySelector("#close-menu-btn").addEventListener("click", () => {
+  sidebar.style.display = "none";
 });
-document.querySelector("#menu-btn").addEventListener("click", (e) => {
-  e.preventDefault();
-  document.querySelector(".sidebar").style.display = "flex";
+document.querySelector("#menu-btn").addEventListener("click", () => {
+  sidebar.style.display = "flex";
 });
 
 export {

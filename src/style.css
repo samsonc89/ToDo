@@ -63,6 +63,7 @@ img {
   width: 30px;
   background: url("./assets/arrow.svg") no-repeat center;
   border: none;
+  z-index: 1;
 }
 
 .sidebar {
