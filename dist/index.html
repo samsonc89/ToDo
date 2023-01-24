@@ -7,77 +7,42 @@
     <title>To Do</title>
   <script defer src="main.bundle.js"></script></head>
   <body>
-    <div class="navbar">
-      <div id="plus-btn">+</div>
-      <div id="profile-icon">+</div>
-    </div>
     <div class="main-wrapper">
-      <div class="sidebar">
-        <div class="view" id="inbox-view">Inbox</div>
-        <div class="view selected" id="today-view">Today</div>
-        <div class="view" id="completed-view">Completed</div>
-        <div class="projects-display"><h2>Projects</h2></div>
+      <div class="navbar">
+        <div id="menu-btn"></div>
+        <div class="dropdown">
+          <div id="profile-icon">
+            <a href=""><img src="" /> </a>
+          </div>
+          <div class="dropdown-content">
+            <button><strong>Settings</strong></button>
+            <button>Logout</button>
+            <button>Help</button>
+          </div>
+        </div>
       </div>
-      <div class="tasks-display"><h2>Today</h2></div>
-    </div>
-    <div id="new-task">
-      <h2>Add A New Task <span class="close">&times;</span></h2>
-
-      <form action="" method="" onSubmit="return false" class="new-task-form">
-        <div>
-          <label for="title">Title: </label>
-          <input type="text" name="title" id="title" />
+      <div class="sidebar">
+        <div class="views-wrapper">
+          <div class="view" id="inbox-view">
+            Inbox
+            <div id="close-menu-btn"></div>
+          </div>
+          <div class="view selected-project" id="today-view">Today</div>
+          <div class="view" id="completed-view">Completed</div>
+          <div class="view" id="trash-view">Trash</div>
         </div>
-        <div>
-          <label for="dueDate">Due Date: </label>
-          <input type="date" name="dueDate" id="dueDate" />
+        <div class="projects-display"><h2>Projects</h2></div>
+        <div class="button-wrapper">
+          <button class="new-btn" id="new-area-btn">+ Project</button>
+          <button class="new-btn" id="del-proj-btn">- Project</button>
         </div>
-        <div>
-          <label for="notes">Notes: </label>
-          <input type="text" name="notes" id="notes" />
+      </div>
+      <div class="right-wrapper">
+        <div class="tasks-display"><h2 class="project-title">Today</h2></div>
+        <div class="button-wrapper">
+          <button class="new-btn" id="new-task-btn">+ Task</button>
         </div>
-        <!-- <div>
-          <label for="project">Project: </label>
-          <input list="projects-list" name="project" id="project" />
-          <datalist id="projects-list"> </datalist>
-        </div> -->
-        <div>
-          <label for="priority">Priority:</label>
-          <input type="checkbox" name="priority" id="priority" />
-        </div>
-        <div class="modal-btns">
-          <button id="add-task-btn" type="button">Add Task</button>
-          <button class="clear-btn" type="button">Clear</button>
-        </div>
-      </form>
-    </div>
-    <div id="new-project">
-      <h2>Add A New Project <span class="close">&times;</span></h2>
-
-      <form action="" method="" onSubmit="return false" class="new-task-form">
-        <div>
-          <label for="project-title">Title: </label>
-          <input type="text" name="project-title" id="project-title" />
-        </div>
-        <!-- <div>
-          <label for="dueDate">Due Date: </label>
-          <input type="date" name="dueDate" id="dueDate" />
-        </div> -->
-        <div>
-          <label for="notes">Notes: </label>
-          <input type="text" name="notes" id="notes" />
-        </div>
-        <!-- <div>
-          <label for="project">Project: </label>
-          <input list="projects-list" name="project" id="project" />
-          <datalist id="projects-list"> </datalist>
-        </div> -->
-
-        <div class="modal-btns">
-          <button id="add-project-btn" type="button">Add Project</button>
-          <button class="clear-btn" type="button">Clear</button>
-        </div>
-      </form>
+      </div>
     </div>
   </body>
 </html>
