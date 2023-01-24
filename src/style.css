@@ -368,4 +368,22 @@ h3:empty:not(:focus)::before {
     height: 2.3vw;
     width: 2.3vw;
   }
+  .right-wrapper {
+    grid-column: 2/3;
+  }
+
+  .tasks-display {
+    margin: 0;
+  }
+  .dropdown {
+    margin-left: auto;
+  }
+  .sidebar {
+    display: flex;
+  }
+
+  #menu-btn,
+  #close-menu-btn {
+    display: none;
+  }
 }
